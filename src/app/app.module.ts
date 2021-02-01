@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { APP_ROUTING } from './app.routes';
 import { AdminComponent } from './admin/admin.component';
 import { AlumnoComponent } from './admin/alumno/alumno.component';
+import { CursoComponent } from './admin/curso/curso.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AlumnoComponent } from './admin/alumno/alumno.component';
     HeaderComponent,
     LoginComponent,
     AdminComponent,
-    AlumnoComponent
+    AlumnoComponent,
+    CursoComponent
   ],
   imports: [
     BrowserModule,
