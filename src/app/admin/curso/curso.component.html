@@ -1,1 +1,63 @@
-<p>curso works!</p>
+<ng-template #contenido let-modal>
+    <div class="modal-header">
+      <h4>Descripción del producto</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" [(ngModel)]="producto.descripcion">
+      </div>
+      <div class="form-group">
+        <label for="">Categoria</label>
+        <select [(ngModel)]="producto.categoria_id" class="form-control" name="categoria_id" id="categoria_id">
+          <option [value]="categoria.categoria_id" *ngFor="let categoria of categorias">{{categoria.descripcion}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Unidad</label>
+        <select [(ngModel)]="producto.unidad_id" class="form-control" name="unidad_id" id="unidad_id">
+          <option [value]="unidad.unidad_id" *ngFor="let unidad of unidades">{{unidad.descripcion}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="">Precio</label>
+        <input type="text" class="form-control" id="precio" name="precio" [(ngModel)]="producto.precio">
+      </div>
+      <div class="form-group">
+        <label for="">Cantidad</label>
+        <input type="text" class="form-control" id="cantidad" name="cantidad" [(ngModel)]="producto.cantidad">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"(click)="saveProductos()">Save changes</button>
+        <button type="button" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+  <div class="card">
+    <div class="card-header">LISTA DE CURSOS</div>
+    <div class="card-body">
+      <div class="row mb-1">
+        <div class="col d-flex">
+          <button type="button" class="btn btn-primary btn-sm ml-auto" (click)="opensave(contenido)"><i class="fas fa-plus-square"></i></button>
+          <button type="button" class="btn btn-warning btn-sm" (click)="openedit(contenido)"><i class="fas fa-edit"></i></button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="eliminarProductos()"><i class="fas fa-trash"></i></button>
+        </div>
+        
+      </div>
+      <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
+        
+        <ag-grid-angular
+          style="width: 100%px; height: 500px"
+          class="ag-theme-alpine"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          rowSelection='single'
+          (gridReady)="OnGridReady($event)"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+  

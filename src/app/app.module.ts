@@ -12,7 +12,9 @@ import { APP_ROUTING } from './app.routes';
 import { AdminComponent } from './admin/admin.component';
 import { AlumnoComponent } from './admin/alumno/alumno.component';
 import { CursoComponent } from './admin/curso/curso.component';
-
+//COMPLEMENTOS
+import { AgGridModule } from 'ag-grid-angular';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,9 @@ import { CursoComponent } from './admin/curso/curso.component';
   ],
   imports: [
     BrowserModule,
-    APP_ROUTING
+    AgGridModule.withComponents([]),
+    APP_ROUTING,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent],
