@@ -1,22 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { HeaderComponent } from './shared/header/header.component';
+import { SidebarComponent } from './admin/shared/sidebar/sidebar.component';
+import { FooterComponent } from './admin/shared/footer/footer.component';
+import { HeaderComponent } from './admin/shared/header/header.component';
+import { LoginComponent } from './login/login.component';
+
+//RUTAS 
+import { APP_ROUTING } from './app.routes';
+import { AdminComponent } from './admin/admin.component';
+import { AlumnoComponent } from './admin/alumno/alumno.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent,
+    AdminComponent,
+    AlumnoComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    APP_ROUTING
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule { }
