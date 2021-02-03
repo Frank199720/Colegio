@@ -3,37 +3,45 @@
     <h4>Descripción del producto</h4>
   </div>
   <div class="modal-body">
-    <div class="row">
-      <div class="col-2">
-        <div class="form-group">
-          <label for="">Codigo</label>
-          <input
-            type="text"
-            class="form-control"
-            id="descripcion"
-            name="descripcion"
-          />
+    <form  (ngSubmit)="saveCurso()">
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label for="">Codigo</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              id="codigo"
+              name="codigo"
+             
+            />
+            
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Nombre de Curso</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              
+            />
+            
+          </div>
         </div>
       </div>
-      <div class="col">
-        <div class="form-group">
-          <label for="">Nombre de Curso</label>
-          <input
-            type="text"
-            class="form-control"
-            id="descripcion"
-            name="descripcion"
-          />
-        </div>
-      </div>
-    </div>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="saveCurso()">
-        Save changes
-      </button>
-      <button type="button" class="btn btn-secondary">Close</button>
-    </div>
+      <div class="modal-footer">
+        <button type="submit"  class="btn btn-primary">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-secondary">Cerrar</button>
+      </div>
+    </form>
   </div>
 </ng-template>
 

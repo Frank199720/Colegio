@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Curso } from '../interface/curso';
 
@@ -9,6 +11,14 @@ import { Curso } from '../interface/curso';
 })
 export class CursoComponent implements OnInit {
   
+  // formCurso:FormGroup = this.formBuilder.group({
+  //   codigo:   [,[Validators.required,Validators.minLength(3)]],
+  //   nombre:   [,Validators.required]
+  // })
+  // campoEsValido(campo:string){
+  //   console.log(this.formCurso.controls[campo].errors)
+  //   return this.formCurso.controls[campo].touched
+  //  }
   curso:Curso={
     CUR_DESCRIPCION:null,
     CUR_ABR:null,
@@ -34,7 +44,11 @@ export class CursoComponent implements OnInit {
 
   constructor(private modal:NgbModal) { }
   saveCurso(){
-
+    
+  //  if(this.formCurso.invalid){
+  //   this.formCurso.markAllAsTouched();
+  //    return;
+  //  }
   }
   opensave(contenido){
     this.modal.open(contenido,{size:'lg'});
