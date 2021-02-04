@@ -1,6 +1,6 @@
-<ng-template #contenido let-modal>
+<ng-template #modalPersonal let-modal>
     <div class="modal-header">
-      <h4>Descripción del producto</h4>
+      <h4>{{accion}}</h4>
     </div>
     <div class="modal-body">
       <form   [formGroup]="formPersonal" autocomplete="off">
@@ -11,21 +11,21 @@
               <input
                 
                 type="text"
-                class="form-control"
+                class="form-control form-control-sm"
                 id="codigo"
                 name="codigo"
-                formControlName="codigo"
+                formControlName="codigoEducando"
               />
              
             </div>
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="">Nombre de Curso</label>
+              <label for="">Apellidos y Nombres</label>
               <input
                 
                 type="text"
-                class="form-control"
+                class="form-control form-control-sm"
                 id="nombre"
                 name="nombre"
                 formControlName="nombre"
@@ -35,12 +35,112 @@
             </div>
           </div>
         </div>
-  
+        <div class="row">
+          <div class="col-2">
+            <div class="form-group">
+              <label for="">DNI</label>
+              <input
+                
+                type="text"
+                class="form-control form-control-sm"
+                id="codigo"
+                name="codigo"
+                formControlName="codigoEducando"
+              />
+             
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Dirección</label>
+              <input
+                
+                type="text"
+                class="form-control form-control-sm"
+                id="nombre"
+                name="nombre"
+                formControlName="nombre"
+                
+              />
+              
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <div class="form-group">
+              <label for="">Estado civil</label>
+              <select name="" id="" class="form-control form-control-sm">
+                <option value="">CASADO</option>
+                <option value="">SOLTERO</option>
+              </select>
+             
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Telefono</label>
+              <input
+                
+                type="text"
+                class="form-control form-control-sm"
+                id="nombre"
+                name="nombre"
+                formControlName="nombre"
+                
+              />
+              
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Seguro Social</label>
+              <input
+                
+                type="text"
+                class="form-control form-control-sm"
+                id="nombre"
+                name="nombre"
+                formControlName="nombre"
+                
+              />
+              
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-between">
+          <div class="col-7">
+            <div class="form-group">
+              <label for="">Departamento</label>
+              <select name="" id="" class="form-control form-control-sm">
+                <option value="">LA LIBERTAD</option>
+                <option value="">LIMA</option>
+              </select>
+             
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label for="">Fecha de Ingreso</label>
+              <input
+                
+                type="date"
+                class="form-control form-control-sm"
+                id="nombre"
+                name="nombre"
+                formControlName="nombre"
+                
+              />
+              
+            </div>
+          </div>
+          
+        </div>
         <div class="modal-footer">
           <button type="submit"  class="btn btn-primary">
             Guardar
           </button>
-          <button type="button" class="btn btn-secondary">Cerrar</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal(modalPersonal)">Cerrar</button>
         </div>
       </form>
     </div>
@@ -54,7 +154,7 @@
           <button
             type="button"
             class="btn btn-primary btn-sm ml-auto"
-            
+            (click)="openSave(modalPersonal)"
           >
             <i class="fas fa-plus-square"></i>
           </button>
