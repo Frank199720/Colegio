@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,10 +9,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  // formLogin:FormGroup = this.formBuilder.group({
+  //   login:   ['usuario',[Validators.required]],
+  //   password:   ['contraseña',Validators.required]
+  // })
   constructor(private router:Router) { }
   
   prueba(){
-    this.router.navigateByUrl('/admin/alumno');
+    this.router.navigateByUrl('colegio/home');
   }
   ngOnInit(): void {
   }

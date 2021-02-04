@@ -1,1 +1,89 @@
 
+<ng-template #contenido let-modal>
+  <div class="modal-header">
+    <h4>Descripción del producto</h4>
+  </div>
+  <div class="modal-body">
+    <form  (ngSubmit)="saveCurso()">
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label for="">Codigo</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              id="codigo"
+              name="codigo"
+             
+            />
+            
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Nombre de Curso</label>
+            <input
+              
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              
+            />
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit"  class="btn btn-primary">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<div class="card">
+  <div class="card-header">LISTA DE CURSOS</div>
+  <div class="card-body">
+    <div class="row mb-1">
+      <div class="col d-flex">
+        <button
+          type="button"
+          class="btn btn-primary btn-sm ml-auto"
+          (click)="opensave(contenido)"
+        >
+          <i class="fas fa-plus-square"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning btn-sm"
+          (click)="openedit(contenido)"
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="eliminar()"
+        >
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
+      <ag-grid-angular
+        style="width: 100%px; height: 500px"
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        rowSelection="single"
+        (gridReady)="OnGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
