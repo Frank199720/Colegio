@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Curso } from '../interface/curso';
@@ -11,14 +11,12 @@ import { Curso } from '../interface/curso';
 })
 export class CursoComponent implements OnInit {
   
-  // formCurso:FormGroup = this.formBuilder.group({
-  //   codigo:   [,[Validators.required,Validators.minLength(3)]],
-  //   nombre:   [,Validators.required]
-  // })
-  // campoEsValido(campo:string){
-  //   console.log(this.formCurso.controls[campo].errors)
-  //   return this.formCurso.controls[campo].touched
-  //  }
+  formCurso:FormGroup;
+  
+  campoEsValido(campo:string){
+    console.log(this.formCurso.controls[campo].errors)
+    return this.formCurso.controls[campo].errors && this.formCurso.controls[campo].touched 
+   }
   curso:Curso={
     CUR_DESCRIPCION:null,
     CUR_ABR:null,
@@ -42,13 +40,13 @@ export class CursoComponent implements OnInit {
   id_curso:any;
   
 
-  constructor(private modal:NgbModal) { }
+  constructor(private modal:NgbModal, private formBuilder:FormBuilder) { }
   saveCurso(){
     
-  //  if(this.formCurso.invalid){
-  //   this.formCurso.markAllAsTouched();
-  //    return;
-  //  }
+   if(this.formCurso.invalid){
+    this.formCurso.markAllAsTouched();
+     return;
+   }
   }
   opensave(contenido){
     this.modal.open(contenido,{size:'lg'});
@@ -76,6 +74,10 @@ export class CursoComponent implements OnInit {
   
   }
   ngOnInit(): void {
+    this.formCurso = this.formBuilder.group({
+      codigo:   [,[Validators.required,Validators.minLength(3)]],
+      nombre:   [,Validators.required]
+    })
   }
 
 }

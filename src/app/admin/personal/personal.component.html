@@ -1,0 +1,80 @@
+<ng-template #contenido let-modal>
+    <div class="modal-header">
+      <h4>Descripción del producto</h4>
+    </div>
+    <div class="modal-body">
+      <form   [formGroup]="formPersonal" autocomplete="off">
+        <div class="row">
+          <div class="col-2">
+            <div class="form-group">
+              <label for="">Codigo</label>
+              <input
+                
+                type="text"
+                class="form-control"
+                id="codigo"
+                name="codigo"
+                formControlName="codigo"
+              />
+             
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Nombre de Curso</label>
+              <input
+                
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                formControlName="nombre"
+                
+              />
+              
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="submit"  class="btn btn-primary">
+            Guardar
+          </button>
+          <button type="button" class="btn btn-secondary">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  
+  <div class="card">
+    <div class="card-header">LISTA DE CURSOS</div>
+    <div class="card-body">
+      <div class="row mb-1">
+        <div class="col d-flex">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm ml-auto"
+            
+          >
+            <i class="fas fa-plus-square"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-warning btn-sm"
+            
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  

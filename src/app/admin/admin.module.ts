@@ -8,6 +8,10 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { PersonalComponent } from './personal/personal.component';
 
 @NgModule({
     declarations:[
@@ -15,13 +19,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         HomeComponent,
         CursoComponent,
         SidebarComponent,
-        HeaderComponent
+        HeaderComponent,
+        PersonalComponent
     ],
     imports:[
         CommonModule,
         AdminRoutingModule,
         AgGridModule.withComponents([]),
         NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA
