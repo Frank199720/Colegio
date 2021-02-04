@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-alumno',
-  templateUrl: './alumno.component.html',
-  styleUrls: ['./alumno.component.css']
+  selector: 'app-matricula',
+  templateUrl: './matricula.component.html',
+  styleUrls: ['./matricula.component.css']
 })
-export class AlumnoComponent implements OnInit {
+export class MatriculaComponent implements OnInit {
   @ViewChild('agGrid') agGrid: AgGridAngular;
 
   private gridApi;
@@ -18,23 +17,33 @@ export class AlumnoComponent implements OnInit {
   defaultColDef;
   rowData: any;
 
-  
-  formAlumno:FormGroup;
-  constructor(private formBuilder:FormBuilder,private modal:NgbModal) {
+  constructor(private modal:NgbModal) { 
     this.columnDefs = [
       { 
         headerName: "Nivel", 
         field: 'nivel', 
         sortable: true, 
         checkboxSelection: true,
-        suppressSizeToFit: true,
-        width: 100,
+      },
+      { 
+        headerName: "Nivel", 
+        field: 'nivel', 
+        sortable: true, 
+      },
+      { 
+        headerName: "año", 
+        field: 'año', 
+        sortable: true 
+      },
+      { 
+        headerName: "Seccion", 
+        field: 'seccion', 
+        sortable: true 
       },
       { 
         headerName: "Apellido Paterno", 
         field: 'apellidopaterno', 
-        sortable: true, 
-        checkboxSelection: true, 
+        sortable: true,  
       },
       { 
         headerName: "Apellido Materno", 
@@ -48,36 +57,20 @@ export class AlumnoComponent implements OnInit {
       },
     ];
     this.defaultColDef = { resizable: true };
-   }
+  }
 
-   onFirstDataRendered(params) {
+  onFirstDataRendered(params) {
     params.api.sizeColumnsToFit();
   }
+
   OnGridReady(params ){
     this.gridApi=params.api;
   }
-  saveCurso(){
-    
-    
-   }
-   opensave(contenido){
-     this.modal.open(contenido,{size:'lg',backdrop:'static',scrollable:true});
-     
-   }
-   cerrarModal(contenido){
-     this.modal.dismissAll();
-   }
-   openedit(contenido){
-     
-   }
-   eliminar(){
- 
-   }
+
+  nuevo(matricula){
+    this.modal.open(matricula, {size:'lg',backdrop:'static',scrollable:true});
+  }
   ngOnInit(): void {
-    this.formAlumno = this.formBuilder.group({
-      codigoEducando:   [,[Validators.required,Validators.minLength(3)]],
-      nombre:   [,Validators.required]
-    })
   }
 
 }
