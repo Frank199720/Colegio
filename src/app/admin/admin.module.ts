@@ -10,6 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { PersonalComponent } from './personal/personal.component';
 import { MatriculaComponent } from './matricula/matricula.component';

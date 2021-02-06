@@ -3,7 +3,7 @@ import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ErrorComponent } from './shared/error/error.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -15,7 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
