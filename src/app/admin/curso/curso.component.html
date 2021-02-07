@@ -3,48 +3,42 @@
     <h4>Descripción del producto</h4>
   </div>
   <div class="modal-body">
-    <form  (ngSubmit)="saveCurso()" [formGroup]="formCurso" autocomplete="off">
+    <form [formGroup]="formCurso" (ngSubmit)="guardar()">
       <div class="row">
-        <div class="col-2">
-          <div class="form-group">
-            <label for="">Codigo</label>
-            <input
-              
-              type="text"
-              class="form-control"
-              id="codigo"
-              name="codigo"
-              formControlName="codigo"
-            />
-            <span class="form-text text-danger" *ngIf="campoEsValido('codigo')">
-              3 car. mín.
-            </span>
-          </div>
-        </div>
         <div class="col">
           <div class="form-group">
             <label for="">Nombre de Curso</label>
-            <input
-              
-              type="text"
-              class="form-control"
-              id="nombre"
-              name="nombre"
-              formControlName="nombre"
-              
-            />
-            <span class="form-text text-danger" *ngIf="campoEsValido('nombre')">
-              Nombre requerido
-            </span>
+            <input [(ngModel)]="curso.cur_descripcion" type="text" formControlName="descripcion" class="form-control" id="descripcion" name="descripcion">
+            <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+              <span class="form-text text-danger" *ngIf="descripcion.errors.required">Nombre requerido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <label for="abreviatura">Abreviatura</label>
+          <input [(ngModel)]="curso.cur_abreviatura" type="text" formControlName="abreviatura" class="form-control">
+          <div *ngIf="abreviatura.invalid && (abreviatura.dirty || abreviatura.touched)">
+            <span class="form-text text-danger" *ngIf="abreviatura.errors.required">Abreviatura requerido</span>
+            <span class="form-text text-danger" *ngIf="abreviatura.errors.maxlength">Maximo 2 letras</span>
+          </div>
+        </div>
+        <div class="col-8">
+          <label for="nivel">Nivel</label>
+          <select [(ngModel)]="curso.niv_cod" class="form-control form-control" formControlName="nivel">
+            <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
+          </select>
+          <div *ngIf="nivel.invalid && (nivel.dirty || nivel.touched)">
+            <span class="form-text text-danger" *ngIf="nivel.errors.required">Escoja un nivel</span>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="submit"  class="btn btn-primary">
-          Guardar
-        </button>
-        <button type="button" class="btn btn-secondary">Cerrar</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!formCurso.valid">Guardar</button>
+        <button class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
       </div>
     </form>
   </div>
@@ -55,37 +49,31 @@
   <div class="card-body">
     <div class="row mb-1">
       <div class="col d-flex">
-        <button
-          type="button"
-          class="btn btn-primary btn-sm ml-auto"
-          (click)="opensave(contenido)"
-        >
+        <button type="button" class="btn btn-primary btn-sm ml-auto" (click)="opensave(contenido)">
           <i class="fas fa-plus-square"></i>
         </button>
-        <button
-          type="button"
-          class="btn btn-warning btn-sm"
-          (click)="openedit(contenido)"
-        >
+        <button type="button" class="btn btn-warning btn-sm" (click)="openedit(contenido)" >
           <i class="fas fa-edit"></i>
         </button>
-        <button
-          type="button"
-          class="btn btn-danger btn-sm"
-          (click)="eliminar()"
-        >
+        <button type="button" class="btn btn-danger btn-sm" (click)="eliminar()">
           <i class="fas fa-trash"></i>
         </button>
       </div>
     </div>
     <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
+<button (click)="getSelectedRows()" class="btn btn-success">Get Selected Rows</button>
+      
       <ag-grid-angular
+        #gridApi
+        id="gridApi"
         style="width: 100%px; height: 500px"
         class="ag-theme-alpine"
-        [rowData]="rowData"
+        [defaultColDef]="defaultColDef"
         [columnDefs]="columnDefs"
+        [rowData]="rowData"
         rowSelection="single"
-        (gridReady)="OnGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        (gridReady)="onGridReady($event)"
       >
       </ag-grid-angular>
     </div>
