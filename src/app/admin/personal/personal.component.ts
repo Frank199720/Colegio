@@ -82,7 +82,6 @@ export class PersonalComponent implements OnInit {
         icon:'error'
       })
     }
-    
   }
   Guardar(){
     if(this.editing){
