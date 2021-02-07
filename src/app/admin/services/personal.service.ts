@@ -19,4 +19,7 @@ export class PersonalService {
   editar(personal:Personal){
     return this.httpCliente.put(this.RUTA_API+'/personals/'+personal.per_cod,personal);
   }
+  delete(per_Cod){
+    return this.httpCliente.delete(this.RUTA_API+'/personals/'+per_Cod)
+  }
 }
