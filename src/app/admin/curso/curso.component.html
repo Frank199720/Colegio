@@ -1,6 +1,6 @@
 <ng-template #contenido let-modal>
   <div class="modal-header">
-    <h4>Descripción del producto</h4>
+    <p>{{accion}}</p>
   </div>
   <div class="modal-body">
     <form [formGroup]="formCurso" (ngSubmit)="guardar()">
@@ -8,7 +8,7 @@
         <div class="col">
           <div class="form-group">
             <label for="">Nombre de Curso</label>
-            <input [(ngModel)]="curso.cur_descripcion" type="text" formControlName="descripcion" class="form-control" id="descripcion" name="descripcion">
+            <input [(ngModel)]="curso.cur_descripcion" type="text" formControlName="descripcion" class="form-control">
             <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
               <span class="form-text text-danger" *ngIf="descripcion.errors.required">Nombre requerido</span>
             </div>
@@ -60,22 +60,17 @@
         </button>
       </div>
     </div>
-    <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
-<button (click)="getSelectedRows()" class="btn btn-success">Get Selected Rows</button>
-      
       <ag-grid-angular
-        #gridApi
-        id="gridApi"
-        style="width: 100%px; height: 500px"
-        class="ag-theme-alpine"
-        [defaultColDef]="defaultColDef"
-        [columnDefs]="columnDefs"
-        [rowData]="rowData"
-        rowSelection="single"
-        (firstDataRendered)="onFirstDataRendered($event)"
-        (gridReady)="onGridReady($event)"
+          #agGrid
+          style="width: 100%px; height: 500px;"
+          class="ag-theme-alpine"
+          [rowData]="rowData"
+          [defaultColDef]="defaultColDef"
+          [columnDefs]="columnDefs"
+          [autoGroupColumnDef]="autoGroupColumnDef"
+          (gridReady)="onGridReady($event)"
+          rowSelection="single"
       >
       </ag-grid-angular>
-    </div>
   </div>
 </div>

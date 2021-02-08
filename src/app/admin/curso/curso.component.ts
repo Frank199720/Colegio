@@ -8,19 +8,15 @@ import { Nivel } from '../interface/nivel';
 import { CursoService } from '../services/curso.service';
 import Swal from 'sweetalert2';
 
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-curso',
   templateUrl: './curso.component.html',
   styleUrls: ['./curso.component.css']
 })
 export class CursoComponent implements OnInit {
-  @ViewChild('gridApi') gridApi: AgGridAngular;
-  
-  
-  /*campoEsValido(campo:string){
-    console.log(this.formCurso.controls[campo].errors)
-    return this.formCurso.controls[campo].errors && this.formCurso.controls[campo].touched 
-  }*/
+  @ViewChild('agGrid') agGrid: AgGridAngular;
 
   createFormGroup(){
     return new FormGroup({
@@ -33,7 +29,7 @@ export class CursoComponent implements OnInit {
   get descripcion() { return this.formCurso.get('descripcion'); }
   get abreviatura() { return this.formCurso.get('abreviatura'); }
   get nivel() { return this.formCurso.get('nivel'); }
-
+  
   formCurso:FormGroup;
 
   curso:Curso={
@@ -41,37 +37,58 @@ export class CursoComponent implements OnInit {
     cur_abreviatura:null,
     niv_cod:null
   };
+
   rowData:any;
   columnDefs =[
     { 
       headerName: "CODIGO", 
       field: 'cur_cod', 
-      checkboxSelection: true, 
       suppressSizeToFit: true,
+      width: 120,
+    },
+    { 
+      headerName: "ABREV.", 
+      field: 'cur_abreviatura',
       width: 100,
     },
     { 
       headerName: "CURSO", 
-      field: 'cur_descripcion',  
+      field: 'cur_descripcion',
+      flex: 3,
+      minWidth: 200,
+      //maxLength: 1000,
     },
     { 
-      headerName: "NIVEL", 
+      headerName: "NIVEL",
       field: 'niv_descripcion',
+      filter: 'agMultiColumnFilter',
+      rowGroup: true,
+      minWidth: 150,
+      flex: 1,
     },
   ];
-  defaultColDef = { resizable: true, sortable: true };
-  //variables de control
-  //gridApi;
+  autoGroupColumnDef = {
+    headerName: 'NIVEL',
+    field: 'niv_descripcion',
+    flex: 1,
+    minWidth: 250,
+    cellRenderer: 'agGroupCellRenderer',
+    cellRendererParams: {
+      checkbox: true
+    }
+  };
+  defaultColDef = { resizable: true, sortable: true};
+
+  gridApi;
   gridColumnApi;
 
   cursos:Curso[];
   niveles:Nivel[];
-  edit:boolean;
   id_curso:any;
   editing: boolean=false;
-  
+  accion:string;
 
-  constructor(private modal:NgbModal, private cursoServices:CursoService) {
+  constructor(private modal:NgbModal, private cursoServices:CursoService, private http:HttpClient) {
     this.cursoServices.getNiveles().subscribe((data:Nivel[])=>{
       this.niveles=data;
     });
@@ -84,93 +101,172 @@ export class CursoComponent implements OnInit {
   onFirstDataRendered(params) {
     params.api.sizeColumnsToFit();
   }
-  
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    //params.api.getToolPanelInstance('filters').expandFilters();
     this.rowData = this.cursoServices.index();
   }
 
-  /*onSubmit() {
-  
-    console.warn(this.formCurso.value);
-  }*/
-  /*saveCurso(){
-    
-   if(this.formCurso.invalid){
-    this.formCurso.markAllAsTouched();
-     return;
-   }
-  }*/
-
   opensave(contenido){
     this.modal.open(contenido,{size:'lg'});
-    this.edit=true;
+    this.accion='Agregar curso';
   }
 
   openedit(contenido){
-    const selectedNodes = this.gridApi.api.getSelectedNodes();
+    const selectedNodes = this.agGrid.api.getSelectedNodes();
     const selectedData = selectedNodes.map(node => node.data );
+    this.getSelectedRows();
     if(selectedData.length > 0){
-      this.editing = true;
+      this.editing=true;
+      this.accion='Editar curso';
       this.curso = this.rowData.find((m) => {
-        return m.cur_cod = this.id_curso;
+        return m.cur_cod == this.id_curso;
       });
-      this.modal.open(contenido, {size:"lg"});
+      this.modal.open(contenido, { size:"lg", backdrop: "static" });
     } else {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Selecciona un curso!',
-      })
+        showConfirmButton: false,
+        timer: 1800,
+      });
     }
   }
 
   eliminar(){
-
+    const selectedNodes = this.agGrid.api.getSelectedNodes();
+    const selectedData = selectedNodes.map(node => node.data );
+    if(selectedData.length > 0){
+      this.getSelectedRows();
+      Swal.fire({
+        title: 'Esta seguro?',
+        text: "Esta acción no sera reversible!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminalo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.cursoServices.destroy(this.id_curso).subscribe((data)=>{
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado!',
+              text: 'El curso ha sido eliminado',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },(error)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'A ocurrido un error!',
+              showConfirmButton: false,
+              timer: 1800,
+            });
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Selecciona un curso!',
+        showConfirmButton: false,
+        timer: 1800,
+      });
+    }
   }
 
   guardar(){
-    if(this.formCurso.valid){
-      if (this.editing) {
-        
-      }
-      else{
-        this.cursoServices.store(this.curso).subscribe((data)=>{
-          Swal.fire(
-            'Curso Guardado',
-            '',
-            'success'
-          )
-        },(error)=>{
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'A ocurrido un error!',
-          })
+    if (this.editing) {
+      this.cursoServices.update(this.curso, this.id_curso).subscribe((data)=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Curso Guardado',
+          showConfirmButton: false,
+          timer: 1500,
         });
-      }
-      this.modal.dismissAll();
-      this.formCurso.reset();
+      },(error)=>{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'A ocurrido un error!',
+          showConfirmButton: false,
+          timer: 1800,
+        });
+      });
     }
+    else{
+      this.cursoServices.store(this.curso).subscribe((data)=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Curso Guardado',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },(error)=>{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'A ocurrido un error!',
+          showConfirmButton: false,
+          timer: 1800,
+        });
+      });
+    }
+    this.modal.dismissAll();
+    this.formCurso.reset();
   }
 
   cerrar(){
     this.modal.dismissAll();
+    this.formCurso.reset();
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
+    //this.rowData2 = this.http.get('https://www.ag-grid.com/example-assets/small-row-data.json');
+    //this.rowData2 = this.cursoServices.index();
+    //this.rowData2 = this.http.get('https://www.ag-grid.com/example-assets/olympic-winners.json');
   }
 
   getSelectedRows() {
-    /*const selectedNodes = this.gridApi.api.getSelectedRows();
+    const selectedNodes = this.agGrid.api.getSelectedNodes();
     const selectedData = selectedNodes.map(node => node.data );
-    const selectedDataStringPresentation = selectedData.map(node => node.cur_descripcion + ' ' + node.niv_descripcion).join(', ');
-
-    alert(`Selected nodes: ${selectedDataStringPresentation}`);
-    const selectedRow = this.gridApi.api.getSelectedRows();*/
-    const selectedNodes = this.gridApi.api.getSelectedRows();
-    alert(selectedNodes.toString());
+    this.id_curso = selectedData.map(node=>node.cur_cod);
   }
-
+}
+var dateFilterParams = {
+  filters: [
+    {
+      filter: 'agDateColumnFilter',
+      filterParams: {
+        comparator: function (filterDate, cellValue) {
+          if (cellValue == null) return -1;
+          return getDate(cellValue) - filterDate;
+        },
+      },
+    },
+    {
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        comparator: function (a, b) {
+          return getDate(a) - getDate(b);
+        },
+      },
+    },
+  ],
+};
+function getDate(value) :any{
+  var dateParts = value.split('/');
+  return new Date(
+    Number(dateParts[2]),
+    Number(dateParts[1]) - 1,
+    Number(dateParts[0])
+  );
 }
