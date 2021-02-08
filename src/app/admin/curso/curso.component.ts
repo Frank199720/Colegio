@@ -56,7 +56,6 @@ export class CursoComponent implements OnInit {
       field: 'cur_descripcion',
       flex: 3,
       minWidth: 200,
-      //maxLength: 1000,
     },
     { 
       headerName: "NIVEL",
@@ -92,21 +91,26 @@ export class CursoComponent implements OnInit {
     this.cursoServices.getNiveles().subscribe((data:Nivel[])=>{
       this.niveles=data;
     });
-    this.cursoServices.index().subscribe((data)=>{
-      this.rowData=data;
-    });
+    this.getCursos();
     this.formCurso = this.createFormGroup();
   }
   
-  onFirstDataRendered(params) {
+  /*onFirstDataRendered(params) {
     params.api.sizeColumnsToFit();
-  }
+  }*/
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    //params.api.getToolPanelInstance('filters').expandFilters();
-    this.rowData = this.cursoServices.index();
+    //this.rowData = this.cursoServices.index();
+  }
+
+  getCursos(){
+    this.cursoServices.index().subscribe((data)=>{
+      this.rowData = data;
+    },(error)=>{
+      console.log('Error:' + error);
+    });
   }
 
   opensave(contenido){
@@ -159,6 +163,7 @@ export class CursoComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500,
             });
+            this.getCursos();
           },(error)=>{
             Swal.fire({
               icon: 'error',
@@ -191,6 +196,7 @@ export class CursoComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500,
         });
+        this.getCursos();
       },(error)=>{
         Swal.fire({
           icon: 'error',
@@ -210,6 +216,7 @@ export class CursoComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500,
         });
+        this.getCursos();
       },(error)=>{
         Swal.fire({
           icon: 'error',
