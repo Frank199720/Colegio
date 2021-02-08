@@ -122,7 +122,7 @@ export class CursoComponent implements OnInit {
       this.editing=true;
       this.accion='Editar curso';
       this.curso = this.rowData.find((m) => {
-        return m.cur_cod == this.id_curso;
+        return m.cur_cod == this.id_curso
       });
       this.modal.open(contenido, { size:"lg", backdrop: "static" });
     } else {
@@ -240,33 +240,4 @@ export class CursoComponent implements OnInit {
     const selectedData = selectedNodes.map(node => node.data );
     this.id_curso = selectedData.map(node=>node.cur_cod);
   }
-}
-var dateFilterParams = {
-  filters: [
-    {
-      filter: 'agDateColumnFilter',
-      filterParams: {
-        comparator: function (filterDate, cellValue) {
-          if (cellValue == null) return -1;
-          return getDate(cellValue) - filterDate;
-        },
-      },
-    },
-    {
-      filter: 'agSetColumnFilter',
-      filterParams: {
-        comparator: function (a, b) {
-          return getDate(a) - getDate(b);
-        },
-      },
-    },
-  ],
-};
-function getDate(value) :any{
-  var dateParts = value.split('/');
-  return new Date(
-    Number(dateParts[2]),
-    Number(dateParts[1]) - 1,
-    Number(dateParts[0])
-  );
 }
