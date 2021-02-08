@@ -72,9 +72,9 @@ export class CursoComponent implements OnInit {
     flex: 1,
     minWidth: 250,
     cellRenderer: 'agGroupCellRenderer',
-    cellRendererParams: {
+    /*cellRendererParams: {
       checkbox: true
-    }
+    }*/
   };
   defaultColDef = { resizable: true, sortable: true};
 
