@@ -1,5 +1,4 @@
 export interface Personal {
-    per_cod?:number,
     per_dni:string;
     per_apellidos:string;
     per_nombres:string;

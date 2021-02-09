@@ -17,7 +17,7 @@ export class PersonalService {
     return this.httpCliente.post(this.RUTA_API+'/personals',personal);
   }
   editar(personal:Personal){
-    return this.httpCliente.put(this.RUTA_API+'/personals/'+personal.per_cod,personal);
+    return this.httpCliente.put(this.RUTA_API+'/personals/'+personal.per_dni,personal);
   }
   delete(per_Cod){
     return this.httpCliente.delete(this.RUTA_API+'/personals/'+per_Cod)

@@ -208,6 +208,7 @@ export class CursoComponent implements OnInit {
       });
     }
     else{
+      console.log(this.curso);
       this.cursoServices.store(this.curso).subscribe((data)=>{
         Swal.fire({
           icon: 'success',
