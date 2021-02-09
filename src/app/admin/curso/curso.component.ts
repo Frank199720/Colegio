@@ -114,7 +114,7 @@ export class CursoComponent implements OnInit {
   }
 
   opensave(contenido){
-    this.modal.open(contenido,{size:'lg'});
+    this.modal.open(contenido,{size:'lg', backdrop: "static"});
     this.accion='Agregar curso';
   }
 
