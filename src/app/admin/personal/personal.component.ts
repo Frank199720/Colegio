@@ -32,12 +32,13 @@ export class PersonalComponent implements OnInit {
   departamentos: Departamento[];
   //Definicion de GRID
   columnDefs = [
-    { field: "per_cod", headerName: "DNI", width: "100", hide: true },
     { field: "per_dni", headerName: "DNI", width: "100" },
     { field: "per_apellidos", headerName: "APELLIDOS" },
     { field: "per_nombres", headerName: "NOMBRES" },
-    { field: "departamento", headerName: "DEPARTAMENTO", resizable: true },
     { field: "per_direccion", headerName: "DIRECCION", resizable: true },
+    { field: "per_ingreso", headerName: "Fecha de Ingreso"},
+    { field: "dep_descripcion", headerName: "DEPARTAMENTO", resizable: true },
+    { field: "dep_cod", headerName: "COD DEP", resizable: true, hide:true},  
   ];
   rowData: any;
   //Definicion de Personal
@@ -74,9 +75,10 @@ export class PersonalComponent implements OnInit {
     this.getSelectedRows();
     if (this.id_personal) {
       this.editing = true;
+      console.log(this.id_personal);
       this.accion = "Edicion de personal";
           this.personal = this.rowData.find((m) => {
-          return m.per_cod == this.id_personal;
+          return m.per_dni == this.id_personal;
         });
         
         this.modal.open(modalPersonal, {
@@ -171,8 +173,10 @@ export class PersonalComponent implements OnInit {
   getSelectedRows() {
     const selectNode = this.gridApi.getSelectedNodes();
     const selectData = selectNode.map((node) => node.data);
-    const idSelected = selectData.map((node) => node.per_cod);
+    const idSelected = selectData.map((node) => node.per_dni);
+    console.log(selectData);
     this.id_personal = idSelected[0];
+    console.log(this.id_personal)
   }
   limpiarForm() {
     this.formPersonal.reset({
