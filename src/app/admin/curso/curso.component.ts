@@ -9,6 +9,7 @@ import { CursoService } from '../services/curso.service';
 import Swal from 'sweetalert2';
 
 import { HttpClient } from '@angular/common/http';
+import { Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-curso',
@@ -86,12 +87,14 @@ export class CursoComponent implements OnInit {
   id_curso:any;
   editing: boolean=false;
   accion:string;
+  rowTemp:any;
 
   constructor(private modal:NgbModal, private cursoServices:CursoService, private http:HttpClient) {
     this.cursoServices.getNiveles().subscribe((data:Nivel[])=>{
       this.niveles=data;
     });
     this.getCursos();
+    //this.rowTemp = this.rowData;
     this.formCurso = this.createFormGroup();
   }
   
@@ -108,12 +111,14 @@ export class CursoComponent implements OnInit {
   getCursos(){
     this.cursoServices.index().subscribe((data)=>{
       this.rowData = data;
+      this.rowTemp = data;
     },(error)=>{
       console.log('Error:' + error);
     });
   }
 
   opensave(contenido){
+    this.editing=false;
     this.modal.open(contenido,{size:'lg', backdrop: "static"});
     this.accion='Agregar curso';
   }
@@ -233,8 +238,11 @@ export class CursoComponent implements OnInit {
   }
 
   cerrar(){
+    //if (!this.editing) {
+      this.limpiarForm();
+    //}
     this.modal.dismissAll();
-    this.formCurso.reset();
+    //this.formCurso.reset();
   }
 
   ngOnInit():void {
@@ -247,5 +255,19 @@ export class CursoComponent implements OnInit {
     const selectedNodes = this.agGrid.api.getSelectedNodes();
     const selectedData = selectedNodes.map(node => node.data );
     this.id_curso = selectedData.map(node=>node.cur_cod);
+  }
+  filterName : string = null;
+  
+  limpiarForm(){
+    this.getCursos();
+    /*this.formCurso.reset({
+      descripcion: "",
+      abreviatura: "",
+      nivel: "",
+    });*/
+    this.curso.cur_descripcion = null;
+    this.curso.cur_abreviatura = null;
+    this.curso.niv_cod = null;
+    this.formCurso.reset();
   }
 }
