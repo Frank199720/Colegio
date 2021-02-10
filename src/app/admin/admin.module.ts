@@ -10,9 +10,15 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { PersonalComponent } from './personal/personal.component';
 import { MatriculaComponent } from './matricula/matricula.component';
+import { CustomdateComponent } from './shared/customdate/customdate.component';
+import { NotasGenComponent } from './notas-gen/notas-gen.component';
+import { AdminComponent } from './admin.component';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
     declarations:[
@@ -22,7 +28,10 @@ import { MatriculaComponent } from './matricula/matricula.component';
         SidebarComponent,
         HeaderComponent,
         PersonalComponent,
-        MatriculaComponent
+        AdminComponent,
+        MatriculaComponent,
+        CustomdateComponent,
+        NotasGenComponent
     ],
     imports:[
         CommonModule,
@@ -31,7 +40,8 @@ import { MatriculaComponent } from './matricula/matricula.component';
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        
+        FlexLayoutModule,
+        MaterialModule
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA

@@ -31,18 +31,30 @@ export class PersonalComponent implements OnInit {
   gridApi: any;
   departamentos: Departamento[];
   //Definicion de GRID
+   
   columnDefs = [
     { field: "per_dni", headerName: "DNI", width: "100" },
     { field: "per_apellidos", headerName: "APELLIDOS" },
     { field: "per_nombres", headerName: "NOMBRES" },
     { field: "per_direccion", headerName: "DIRECCION", resizable: true },
-    { field: "per_ingreso", headerName: "Fecha de Ingreso"},
+    { field: "per_ingreso", headerName: "Fecha de Ingreso",filterParams: filterParams},
     { field: "dep_descripcion", headerName: "DEPARTAMENTO", resizable: true },
     { field: "dep_cod", headerName: "COD DEP", resizable: true, hide:true},  
   ];
   rowData: any;
   //Definicion de Personal
   personal: Personal = {
+    per_dni: null,
+    per_apellidos: null,
+    per_nombres: null,
+    dep_cod: null,
+    per_direccion: null,
+    per_estadocivil: null,
+    per_telefono: null,
+    per_segurosocial: null,
+    per_ingreso: null,
+  };
+  personalini: Personal = {
     per_dni: null,
     per_apellidos: null,
     per_nombres: null,
@@ -64,6 +76,7 @@ export class PersonalComponent implements OnInit {
       this.departamentos = data;
     });
     this.getPersona();
+    
   }
   openSave(modalPersonal) {
     this.editing = false;
@@ -108,6 +121,7 @@ export class PersonalComponent implements OnInit {
               showConfirmButton: false,
             });
             this.closeModal("modalPersonal");
+            this.limpiarForm();
             this.getPersona();
           },
           (error) => {
@@ -124,6 +138,7 @@ export class PersonalComponent implements OnInit {
               showConfirmButton: false,
             });
             this.closeModal("modalPersonal");
+            this.limpiarForm();
             this.getPersona();
           },
           (error) => {
@@ -132,6 +147,7 @@ export class PersonalComponent implements OnInit {
           }
         );
       }
+      
     }else{
       Swal.fire({
         icon:"error",
@@ -174,22 +190,12 @@ export class PersonalComponent implements OnInit {
     const selectNode = this.gridApi.getSelectedNodes();
     const selectData = selectNode.map((node) => node.data);
     const idSelected = selectData.map((node) => node.per_dni);
-    console.log(selectData);
+    console.log(selectNode);
     this.id_personal = idSelected[0];
     console.log(this.id_personal)
   }
   limpiarForm() {
-    this.formPersonal.reset({
-      codPersonal: "",
-      nombrePersonal: "",
-      dniPersonal: "",
-      direccionPersonal: "",
-      telefonoPersonal: "",
-      seguroPersonal: "",
-      fechaPersonal: "",
-      depPersonal: "",
-      sexoPersonal: "",
-    });
+    this.personal=this.personalini;
   }
   eliminar(){
     this.getSelectedRows();
@@ -226,4 +232,25 @@ export class PersonalComponent implements OnInit {
     }
     
   }
+  
 }
+var filterParams = {
+  comparator: function (filterLocalDateAtMidnight, cellValue) {
+    var dateAsString = cellValue;
+    var dateParts = dateAsString.split('/');
+    var cellDate = new Date(
+      Number(dateParts[2]),
+      Number(dateParts[1]) - 1,
+      Number(dateParts[0])
+    );
+    if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+      return 0;
+    }
+    if (cellDate < filterLocalDateAtMidnight) {
+      return -1;
+    }
+    if (cellDate > filterLocalDateAtMidnight) {
+      return 1;
+    }
+  },
+};

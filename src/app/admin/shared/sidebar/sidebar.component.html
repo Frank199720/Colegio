@@ -1,3 +1,55 @@
+<ng-template #modalNotas let-modal>
+  <div class="modal-header">
+    <p>Seleccion de grado y seccion</p>
+  </div>
+  <div class="modal-body">
+    
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="">Nivel</label>
+            <select  name="selectGrado" (change)="actualizarGrado()" class="form-control">
+              <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
+            </select>
+            
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Grado</label>
+            <select name="selectGrado" id="selectGrado" class="form-control">
+              <option value="1">PRIMERO</option>
+              <option value="2">SEGUNDO</option>
+              <option value="3">TERCER</option>
+              <option value="4">CUARTO</option>
+              <option value="5">QUINTO</option>
+              <option value="6">SEXTO</option>
+            </select>
+            
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Seccion</label>
+            <select name="selectGrado" id="selectGrado" class="form-control" [(ngModel)]="selectGrado">
+              <option value="1">A</option>
+              <option value="2">B</option>
+            </select>
+            
+          </div>
+        </div>
+      </div>
+
+      
+            
+
+      <div class="modal-footer">
+        <button class="btn btn-success" type="submit" (click)="irAnotas()">Ir</button>
+        
+      </div>
+    
+  </div>
+</ng-template>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
@@ -7,7 +59,7 @@
         class="brand-image img-circle elevation-3"
         style="opacity: 0.8"
       />
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Colegio</span>
     </a>
   
     <!-- Sidebar -->
@@ -22,7 +74,7 @@
           />
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">ISO</a>
         </div>
       </div>
   
@@ -37,7 +89,7 @@
           <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
+            <a href="#" target=_self class="nav-link active" >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Alumnos
@@ -74,7 +126,16 @@
                   <p>Registrar</p>
                 </a>
               </li>
+              <li class="nav-item">
+                
+                  <a class="nav-link" (click)="abriModalNota(modalNotas)">
+                    
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Notas</p>
+                  </a>
               
+                
+              </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
