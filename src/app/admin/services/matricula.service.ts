@@ -23,4 +23,13 @@ export class MatriculaService {
   delete(matr_cod){
     return this.httpCliente.delete(this.RUTA_API+'/matriculas/'+matr_cod)
   }
+  getNiveles(){
+    return this.httpCliente.get(this.RUTA_API + '/niveles');
+  }
+  getGradobyNivel(codNivdel:number){
+    return this.httpCliente.get(this.RUTA_API + '/grados/'+codNivdel);
+  }
+  getSeccionByGrade(codSeccion:number){
+    return this.httpCliente.get(this.RUTA_API + '/secciones/'+codSeccion);
+  }
 }
