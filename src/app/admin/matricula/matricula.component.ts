@@ -17,7 +17,7 @@ export class MatriculaComponent implements OnInit {
   defaultColDef;
   rowData: any;
 
-  constructor(private modal:NgbModal) { 
+  constructor(private modal:NgbModal ) { 
     this.columnDefs = [
       { 
         headerName: "Nivel", 
@@ -57,6 +57,7 @@ export class MatriculaComponent implements OnInit {
       },
     ];
     this.defaultColDef = { resizable: true };
+
   }
 
   onFirstDataRendered(params) {
@@ -72,5 +73,7 @@ export class MatriculaComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-
+  getMatriculas(){
+    
+  }
 }
