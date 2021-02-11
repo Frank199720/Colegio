@@ -16,7 +16,9 @@ export class AlumnoService {
   getProvincias(id){
     return this.httpClient.get(this.RUTA_API + '/ubi_provs/' + id);
   }
-
+  getAlumnobyId(cod:string){
+    return this.httpClient.get(this.RUTA_API+'/alumnos/'+cod)
+  }
   getDistritos(){
 
   }
