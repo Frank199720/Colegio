@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlumnoService } from '../services/alumno.service';
+import { Departamento } from '../interface/departamento'
 
 @Component({
   selector: 'app-alumno',
@@ -18,9 +20,12 @@ export class AlumnoComponent implements OnInit {
   defaultColDef;
   rowData: any;
 
+  departamentos:Departamento[];
+  departamento:Departamento;
+
   
   formAlumno:FormGroup;
-  constructor(private formBuilder:FormBuilder,private modal:NgbModal) {
+  constructor(private formBuilder:FormBuilder,private modal:NgbModal, private alumnoService:AlumnoService) {
     this.columnDefs = [
       { 
         headerName: "Nivel", 
@@ -48,6 +53,10 @@ export class AlumnoComponent implements OnInit {
       },
     ];
     this.defaultColDef = { resizable: true };
+    alumnoService.getDepartamentos().subscribe((data:Departamento[])=>{
+      this.departamentos = data;
+      console.log(this.departamentos);
+    });
    }
 
    onFirstDataRendered(params) {
@@ -80,4 +89,7 @@ export class AlumnoComponent implements OnInit {
     })
   }
 
+  provAlumno(){
+    
+  }
 }

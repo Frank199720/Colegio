@@ -1,4 +1,4 @@
 export interface Departamento {
-    dep_cod:number;
-    dep_descripcion:string;
+    id?:number;
+    name?:string;
 }

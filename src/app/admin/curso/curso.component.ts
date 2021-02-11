@@ -39,6 +39,12 @@ export class CursoComponent implements OnInit {
     niv_cod:null
   };
 
+  cursoini:Curso={
+    cur_descripcion:null,
+    cur_abreviatura:null,
+    niv_cod:null
+  };
+
   rowData:any;
   columnDefs =[
     { 
@@ -233,14 +239,18 @@ export class CursoComponent implements OnInit {
         });
       });
     }
+    this.limpiarForm();
     this.modal.dismissAll();
-    this.formCurso.reset();
   }
 
   cerrar(){
     //if (!this.editing) {
-      this.limpiarForm();
+      //this.limpiarForm();
     //}
+    /*this.curso.cur_abreviatura=null;
+    this.curso.cur_descripcion=null;
+    this.curso.niv_cod=null;*/
+    this.limpiarForm();
     this.modal.dismissAll();
     //this.formCurso.reset();
   }
@@ -256,18 +266,9 @@ export class CursoComponent implements OnInit {
     const selectedData = selectedNodes.map(node => node.data );
     this.id_curso = selectedData.map(node=>node.cur_cod);
   }
-  filterName : string = null;
-  
+
   limpiarForm(){
-    this.getCursos();
-    /*this.formCurso.reset({
-      descripcion: "",
-      abreviatura: "",
-      nivel: "",
-    });*/
-    this.curso.cur_descripcion = null;
-    this.curso.cur_abreviatura = null;
-    this.curso.niv_cod = null;
+    this.curso = this.cursoini;
     this.formCurso.reset();
   }
 }
