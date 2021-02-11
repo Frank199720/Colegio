@@ -1,79 +1,119 @@
-<ng-template #matricula let modal>
+<ng-template #modalMatricula let modal>
     <div class="modal-header">
-        <p>Registrar Matricula</p>
-        <button class="close" aria-label="close" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
+      <p>Registrar Matricula</p>
+      <button class="close" aria-label="close" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-4">
-                <label for="descripcion" class="form-label">Codigo del Educando</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="codigo" name="codigo">
-                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-plus-square"></i></button>
-                </div>
-            </div>
-            <div class="col-3">
-                <label for="numMatricula" class="form-label">Nro Matricula</label>
-                <input type="text" class="form-control" id="numMatricula" name="numMatricula">
-            </div>
-            <div class="col-1"></div>
-            <div class="col-3">
-                <label for="descripcion" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha">
-            </div>
+      <div class="row">
+        <div class="col-4">
+          <label for="descripcion" class="form-label">Codigo del Educando</label>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="alu_dni"
+              name="alu_dni"
+              [(ngModel)]="matricula.alu_dni"
+            />
+            <button
+              class="btn btn-outline-secondary btn-warning"
+              (click)="getAlumnobyId()"
+              type="button"
+            >
+            <i class="fas fa-plus-square"></i>
+            </button>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="apellidoP" class="form-label">Apellido Paterno</label>
-                <input type="text" class="form-control" id="apellidoP" name="apellidoP">
-            </div>
-            <div class="col-3">
-                <label for="apellidoM" class="form-label">Apellido Materno</label>
-                <input type="text" class="form-control" id="apellidoM" name="apellidoM">
-            </div>
-            <div class="col-6">
-                <label for="nombres" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nombres" name="nombres">
-            </div>
+        <div class="col-3">
+          <label for="numMatricula" class="form-label">Nro Matricula</label>
+          <input
+            [(ngModel)]="matricula.mat_num"
+            type="text"
+            class="form-control"
+            id="mat_num"
+            name="mat_num"
+          />
         </div>
-        <div class="row">
-            <div class="col">
-                <label for="nivel" class="for-label">Nivel</label>
-                <select class="form-control form-control" name="nivel" id="nivel">
-                    <option value="">algodon</option>
-                </select>
-            </div>
-            <div class="col">
-              <label for="nivel" class="for-label">Grado</label>
-              <select class="form-control form-control" name="nivel" id="nivel">
-                  <option value="">algodon</option>
-              </select>
-            </div>
-            <div class="col">
-              <label for="nivel" class="for-label">Sección</label>
-              <select class="form-control form-control" name="nivel" id="nivel">
-                  <option value="">algodon</option>
-              </select>
-            </div>
-            <div class="col-6">
-                <label for="año" class="for-label">Año</label>
-                <input type="text" class="form-control" id="nombres" name="nombres">
-            </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+          <label for="descripcion" class="form-label">Fecha</label>
+          <input
+            [(ngModel)]="matricula.mat_fechar"
+            type="date"
+            class="form-control"
+            id="mat_fechar"
+            name="mat_fechar"
+            readonly
+          />
         </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <label for="apellidoP" class="form-label">Apellido Paterno</label>
+          <input
+            type="text"
+            class="form-control"
+            id="apellidoP"
+            name="apellidoP"
+            [(ngModel)]="apellidopaterno"
+            readonly
+          />
+        </div>
+        <div class="col-3">
+          <label for="apellidoM" class="form-label">Apellido Materno</label>
+          <input
+            type="text"
+            class="form-control"
+            id="apellidoM"
+            name="apellidoM"
+            [(ngModel)]="apellidomaterno"
+            readonly
+          />
+        </div>
+        <div class="col-6">
+          <label for="nombres" class="form-label">Nombres</label>
+          <input type="text" class="form-control" id="nombres" name="nombres" [(ngModel)]="nombre" readonly/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="nivel" class="for-label">Nivel</label>
+          <select class="form-control form-control" name="nivel" id="nivel">
+            <option value="">algodon</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="nivel" class="for-label">Grado</label>
+          <select class="form-control form-control" name="nivel" id="nivel">
+            <option value="">algodon</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="nivel" class="for-label">Sección</label>
+          <select class="form-control form-control" name="nivel" id="nivel">
+            <option value="">algodon</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <label for="año" class="for-label">Año </label>
+          <input
+            type="text"
+            class="form-control"
+            id="mat_anio"
+            name="mat_anio"
+            [(ngModel)]="matricula.mat_anio"
+          />
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success">Guardar</button>
+      <button type="button" class="btn btn-success">Guardar</button>
     </div>
-</ng-template>
-
-
-
-
-
-
-<div class="card">
+  </ng-template>
+  
+  <div class="card">
     <div class="card-header">ALUMNOS MATRICULADOS</div>
     <div class="card-body">
       <div class="row mb-1">
@@ -81,22 +121,14 @@
           <button
             type="button"
             class="btn btn-primary btn-sm ml-auto"
-            (click)="nuevo(matricula)"
+            (click)="openSave(modalMatricula)"
           >
             <i class="fas fa-plus-square"></i>
           </button>
-          <button
-            type="button"
-            class="btn btn-warning btn-sm"
-            
-          >
+          <button type="button" class="btn btn-warning btn-sm">
             <i class="fas fa-edit"></i>
           </button>
-          <button
-            type="button"
-            class="btn btn-danger btn-sm"
-            
-          >
+          <button type="button" class="btn btn-danger btn-sm">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -105,14 +137,15 @@
         <ag-grid-angular
           style="width: 100%px; height: 500px"
           class="ag-theme-alpine"
-          [rowData]="rowData | async"
+          [rowData]="rowData"
           [columnDefs]="columnDefs"
-          [defaultColDef]="defaultColDef"
+          
           rowSelection="single"
-          (firstDataRendered)="onFirstDataRendered($event)"
+          
           (gridReady)="OnGridReady($event)"
         >
         </ag-grid-angular>
       </div>
     </div>
   </div>
+  

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Curso } from '../interface/curso';
 
 @Component({
   selector: 'app-notas-gen',
@@ -11,5 +12,9 @@ export class NotasGenComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  curso:Curso={
+    niv_cod:null,
+    cur_abreviatura:null,
+    cur_descripcion:null
+  };
 }
