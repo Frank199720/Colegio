@@ -168,10 +168,9 @@
               <div class="col">
                 <div class="form-group">
                   <label for="">Departamento</label>
-                  <select name="" class="form-control form-control-sm" id="">
-                    <option value="F">La Libertad</option>
-                    <option value="M">Lima</option>
-                  </select>
+                    <select class="form-control form-control-sm">
+                      <option [value]="departamento.id" *ngFor="let departamento of departamentos">{{departamento.name}}</option>
+                    </select>
                 </div>
               </div>
               <div class="col">
@@ -298,9 +297,8 @@
                 <div class="col">
                   <div class="form-group">
                     <label for="">Departamento</label>
-                    <select name="" class="form-control form-control-sm" id="">
-                      <option value="F">La Libertad</option>
-                      <option value="M">Lima</option>
+                    <select class="form-control form-control-sm" onchange="provAlumno()" name="depAlum">
+                      <option [value]="departamento.id" *ngFor="let departamento of departamentos">{{departamento.name}}</option>
                     </select>
                   </div>
                 </div>
