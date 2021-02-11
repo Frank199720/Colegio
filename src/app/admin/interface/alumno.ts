@@ -1,0 +1,21 @@
+export interface Alumno {
+    alu_dni?:String;
+    alu_codigomod?:String;
+    alu_apellidop?:String;
+    alu_apellidom?:String;
+    alu_nombres?:String;
+    alu_sexo?:String;
+    alu_fechanac?:Date;
+    alu_escala?:String;
+    alu_pais?:String;
+    department_id?:String;
+    province_id?:String;
+    district_id?:String;
+    alu_anioingreso?:String;
+    alu_lenguamat?:String;
+    alu_estadocivil?:String;
+    alu_religion?:String;
+    alu_fechabautizo?:Date;
+    alu_parroquiab?:String;
+    alu_colprocedencia?:String;
+}

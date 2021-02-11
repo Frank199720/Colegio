@@ -1,5 +1,5 @@
 export interface Provincia {
     id?:string;
-    nombre?:string;
+    name?:string;
     departament_id?:string;
 }

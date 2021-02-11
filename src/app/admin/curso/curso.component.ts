@@ -93,7 +93,7 @@ export class CursoComponent implements OnInit {
   id_curso:any;
   editing: boolean=false;
   accion:string;
-  rowTemp:any;
+  //rowTemp:any;
 
   constructor(private modal:NgbModal, private cursoServices:CursoService, private http:HttpClient) {
     this.cursoServices.getNiveles().subscribe((data:Nivel[])=>{
@@ -117,7 +117,7 @@ export class CursoComponent implements OnInit {
   getCursos(){
     this.cursoServices.index().subscribe((data)=>{
       this.rowData = data;
-      this.rowTemp = data;
+      //this.rowTemp = data;
     },(error)=>{
       console.log('Error:' + error);
     });
