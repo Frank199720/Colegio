@@ -19,6 +19,12 @@ import { CustomdateComponent } from './shared/customdate/customdate.component';
 import { NotasGenComponent } from './notas-gen/notas-gen.component';
 import { AdminComponent } from './admin.component';
 import { MaterialModule } from '../material/material.module';
+import { PrincipalComponent } from './profesor/principal/principal.component';
+import { HeaderpComponent } from './profesor/principal/headerp/headerp.component';
+import { SidebarpComponent } from './profesor/principal/sidebarp/sidebarp.component';
+import { PerfilComponent } from './profesor/perfil/perfil.component';
+import { CursosaComponent } from './profesor/cursosa/cursosa.component';
+import { NotasComponent } from './profesor/notas/notas.component';
 
 @NgModule({
     declarations:[
@@ -31,7 +37,13 @@ import { MaterialModule } from '../material/material.module';
         AdminComponent,
         MatriculaComponent,
         CustomdateComponent,
-        NotasGenComponent
+        NotasGenComponent,
+        PrincipalComponent,
+        HeaderpComponent,
+        SidebarpComponent,
+        PerfilComponent,
+        CursosaComponent,
+        NotasComponent
     ],
     imports:[
         CommonModule,

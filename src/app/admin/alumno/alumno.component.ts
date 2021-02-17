@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlumnoService } from '../services/alumno.service';
@@ -8,6 +8,7 @@ import { Provincia } from '../interface/provincia';
 import { Distrito } from '../interface/distrito';
 import { Alumno } from '../interface/alumno';
 import Swal from 'sweetalert2';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-alumno',
@@ -21,8 +22,8 @@ export class AlumnoComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      codModular: new FormControl('', [Validators.required]),
-      dni: new FormControl('', [Validators.required]),
+      codModular: new FormControl('', [Validators.required, Validators.maxLength(3)]),
+      dni: new FormControl('', [Validators.required, Validators.maxLength(8), Validators.minLength(8)]),
       nroMatricula: new FormControl('', [Validators.required]),
       apPaterno: new FormControl('', [Validators.required]),
       apMaterno: new FormControl('', [Validators.required]),
@@ -31,10 +32,10 @@ export class AlumnoComponent implements OnInit {
       fechaNacimiento: new FormControl('', [Validators.required]),
       pais: new FormControl('', [Validators.required]),
       escala: new FormControl('', [Validators.required]),
-      añoIngreso: new FormControl('', [Validators.required]),
+      añoIngreso: new FormControl('', [Validators.required, Validators.maxLength(4)]),
       depAlumno: new FormControl('', [Validators.required]),
-      provAlumno: new FormControl('', [Validators.required]),
-      distAlumno: new FormControl('', [Validators.required]),
+      provAlumno: new FormControl({value: '', disabled: true}, [Validators.required]),
+      distAlumno: new FormControl({value: '', disabled: true}, [Validators.required]),
       lenguaMaterna: new FormControl('', [Validators.required]),
       estadoCivil: new FormControl('', [Validators.required]),
       religion: new FormControl('', [Validators.required]),
@@ -42,7 +43,7 @@ export class AlumnoComponent implements OnInit {
       parroquia: new FormControl('', [Validators.required]),
       colegioProc: new FormControl(''),
       direccion: new FormControl('', [Validators.required]),
-      telefono: new FormControl('', [Validators.required]),
+      telefono: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]),
       depDomicilio: new FormControl('', [Validators.required]),
       provDomicilio: new FormControl('', [Validators.required]),
       distDomicilio: new FormControl('', [Validators.required]),
@@ -55,11 +56,37 @@ export class AlumnoComponent implements OnInit {
     });
   }
 
-  //get codEducando() { return this.formAlumno.get('codEducando'); }
-
-
-
+  get codModular() { return this.formAlumno.get('codModular'); }
+  get dni() { return this.formAlumno.get('dni'); }
+  get nroMatricula() { return this.formAlumno.get('nroMatricula'); }
+  get apPaterno() { return this.formAlumno.get('apPaterno'); }
+  get apMaterno() { return this.formAlumno.get('apMaterno'); }
+  get nombres() { return this.formAlumno.get('nombres'); }
+  get sexo() { return this.formAlumno.get('sexo'); }
+  get fechaNacimiento() { return this.formAlumno.get('fechaNacimiento'); }
+  get pais() { return this.formAlumno.get('pais'); }
+  get escala() { return this.formAlumno.get('escala'); }
+  get añoIngreso() { return this.formAlumno.get('añoIngreso'); }
   get depAlumno() { return this.formAlumno.get('depAlumno'); }
+  get provAlumno() { return this.formAlumno.get('provAlumno'); }
+  get distAlumno() { return this.formAlumno.get('distAlumno'); }
+  get lenguaMaterna() { return this.formAlumno.get('lenguaMaterna'); }
+  get estadoCivil() { return this.formAlumno.get('estadoCivil'); }
+  get religion() { return this.formAlumno.get('religion'); }
+  get fechaBautizo() { return this.formAlumno.get('fechaBautizo'); }
+  get parroquia() { return this.formAlumno.get('parroquia'); }
+  get colegioProc() { return this.formAlumno.get('colegioProc'); }
+  get direccion() { return this.formAlumno.get('direccion'); }
+  get telefono() { return this.formAlumno.get('telefono'); }
+  get depDomicilio() { return this.formAlumno.get('depDomicilio'); }
+  get provDomicilio() { return this.formAlumno.get('provDomicilio'); }
+  get distDomicilio() { return this.formAlumno.get('distDomicilio'); }
+  get transporte() { return this.formAlumno.get('transporte'); }
+  get tiempoDemora() { return this.formAlumno.get('tiempoDemora'); }
+  get materialVivienda() { return this.formAlumno.get('materialVivienda'); }
+  get electricidad() { return this.formAlumno.get('electricidad'); }
+  get aguaPotable() { return this.formAlumno.get('aguaPotable'); }
+  get desague() { return this.formAlumno.get('desague'); }
 
   private gridApi;
   private gridColumnApi;
@@ -83,6 +110,8 @@ export class AlumnoComponent implements OnInit {
   alumnoini:Alumno={};
   alumnos: Alumno[];
   dni_alumno;
+  escalaArray=['A','B','C','D','E'];
+
 
   constructor(private formBuilder: FormBuilder, private modal: NgbModal, private alumnoService: AlumnoService) {
     this.columnDefs = [
@@ -166,6 +195,8 @@ export class AlumnoComponent implements OnInit {
     if(selectedData.length > 0){
       this.editing=true;
       this.accion='Editar';
+      /*this.provAlumno.enable();
+      this.distAlumno.enable();  */
       //console.log(this.dni_alumno);
       //console.log(selectedData);
       selectedData.map((node)=>{
@@ -177,6 +208,13 @@ export class AlumnoComponent implements OnInit {
       });*/
       this.departamentoD();
       this.provinciaD();
+      console.log("Departamento" + this.alumno.department_id);
+      console.log("Provincia" + this.alumno.province_id);
+      console.log("Distrito" + this.alumno.district_id);
+      //this.provAlumno.disable();
+      /*console.log("Departamento" + this.depAlumno);
+      console.log("Provincia" + this.alumno.province_id);
+      console.log("Distrito" + this.alumno.district_id);*/
       //console.log(this.provincias);
       /*this.alumno = this.rowData.find((m:Alumno) => {
         return m.alu_dni == this.dni_alumno
@@ -316,6 +354,10 @@ export class AlumnoComponent implements OnInit {
 
   limpiarForm() {
     this.alumno=this.alumnoini;
+    this.provincias=null;
+    this.distritos=null;
+    this.provAlumno.disable();
+    this.distAlumno.disable();
     this.formAlumno.reset();
   }
   
@@ -334,6 +376,7 @@ export class AlumnoComponent implements OnInit {
     this.alumnoService.getProvincias(this.alumno.department_id).subscribe((data: Provincia[]) => {
       this.provincias = data;
     });
+    this.provAlumno.enable();
     //console.log("departamento" + this.alumno.department_id);
   }
 
@@ -341,10 +384,11 @@ export class AlumnoComponent implements OnInit {
     this.alumnoService.getDistritos(this.alumno.province_id).subscribe((data: Distrito[]) => {
       this.distritos = data;
     });
+    this.distAlumno.enable();
     //console.log(this.alumno.province_id);
   }
 
-  provAlumno() {
-
-  }
+  /*provAlumno() {
+    
+  }*/
 }

@@ -6,7 +6,7 @@
   <div class="modal-body">
     <form (ngSubmit)="guardar()" [formGroup]="formAlumno" autocomplete="off">
       <div class="row">
-        <div class="card">
+        <div class="card" style="width: 100%">
           <div class="card-header">Datos Personales</div>
           <div class="card-body">
             <div class="row">
@@ -15,6 +15,10 @@
                   <label for="">Código Modular</label>
                   <input [(ngModel)]="alumno.alu_codigomod" type="text" class="form-control form-control-sm"
                     formControlName="codModular" />
+                  <div *ngIf="codModular.invalid && (codModular.dirty || codModular.touched)">
+                    <span class="form-text text-danger" *ngIf="codModular.errors.required">Código requerido</span>
+                    <span class="form-text text-danger" *ngIf="codModular.errors.maxlength">Maximo 3 numeros</span>
+                  </div>
                 </div>
               </div>
               <div class="col">
@@ -22,6 +26,11 @@
                   <label for="">DNI</label>
                   <input [(ngModel)]="alumno.alu_dni" type="text" class="form-control form-control-sm"
                     formControlName="dni" />
+                  <div *ngIf="dni.invalid && (dni.dirty || dni.touched)">
+                    <span class="form-text text-danger" *ngIf="dni.errors.required">Ingrese DNI</span>
+                    <span class="form-text text-danger" *ngIf="dni.errors.maxlength || dni.errors.minlength">Son ocho
+                      dígitos</span>
+                  </div>
                 </div>
               </div>
               <div class="col">
@@ -37,6 +46,10 @@
                   <label for="">Apellido Paterno</label>
                   <input [(ngModel)]="alumno.alu_apellidop" type="text" class="form-control form-control-sm"
                     formControlName="apPaterno" />
+                  <div *ngIf="apPaterno.invalid && (apPaterno.dirty || apPaterno.touched)">
+                    <span class="form-text text-danger" *ngIf="apPaterno.errors.required">Ingrese Apellido
+                      Paterno</span>
+                  </div>
                 </div>
               </div>
               <div class="col-3">
@@ -44,6 +57,10 @@
                   <label for="">Apellido Materno</label>
                   <input [(ngModel)]="alumno.alu_apellidom" type="text" class="form-control form-control-sm"
                     formControlName="apMaterno" />
+                  <div *ngIf="apMaterno.invalid && (apMaterno.dirty || apMaterno.touched)">
+                    <span class="form-text text-danger" *ngIf="apMaterno.errors.required">Ingrese Apellido
+                      Materno</span>
+                  </div>
                 </div>
               </div>
               <div class="col-6">
@@ -51,6 +68,9 @@
                   <label for="">Nombres</label>
                   <input [(ngModel)]="alumno.alu_nombres" type="text" class="form-control form-control-sm"
                     formControlName="nombres" />
+                  <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
+                    <span class="form-text text-danger" *ngIf="nombres.errors.required">Ingrese nombres</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -59,9 +79,12 @@
                 <div class="form-group">
                   <label for="">Sexo</label>
                   <select [(ngModel)]="alumno.alu_sexo" class="form-control form-control-sm" formControlName="sexo">
-                    <option value="F">Femenino</option>
-                    <option value="M">Masculino</option>
+                    <option value="F">FEMENINO</option>
+                    <option value="M">MASCULINO</option>
                   </select>
+                  <div *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)">
+                    <span class="form-text text-danger" *ngIf="sexo.errors.required">Elija un sexo</span>
+                  </div>
                 </div>
               </div>
               <div class="col-3">
@@ -69,22 +92,33 @@
                   <label for="">Fecha de Nac.</label>
                   <input [(ngModel)]="alumno.alu_fechanac" type="date" class="form-control form-control-sm"
                     formControlName="fechaNacimiento" />
+                  <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched)">
+                    <span class="form-text text-danger" *ngIf="fechaNacimiento.errors.required">Selecciona una
+                      fecha</span>
+                  </div>
                 </div>
               </div>
-              <div class="col">
+              <div class="col-3">
                 <div class="form-group">
                   <label for="">País</label>
                   <select [(ngModel)]="alumno.alu_pais" class="form-control form-control-sm" formControlName="pais">
-                    <option value="01">Perú</option>
-                    <option value="02">Chile</option>
+                    <option value="PERÚ">PERÚ</option>
+                    <option value="CHILE">CHILE</option>
                   </select>
+                  <div *ngIf="pais.invalid && (pais.dirty || pais.touched)">
+                    <span class="form-text text-danger" *ngIf="pais.errors.required">Selecciona un país</span>
+                  </div>
                 </div>
               </div>
-              <div class="col-1">
+              <div class="col-2">
                 <div class="form-group">
                   <label for="">Escala</label>
-                  <input [(ngModel)]="alumno.alu_escala" type="text" class="form-control form-control-sm"
-                    formControlName="escala" />
+                  <select [(ngModel)]="alumno.alu_escala" class="form-control form-control-sm" formControlName="escala">
+                    <option [value]="esc" *ngFor="let esc of escalaArray">{{esc}}</option>
+                  </select>
+                  <div *ngIf="escala.invalid && (escala.dirty || escala.touched)">
+                    <span class="form-text text-danger" *ngIf="escala.errors.required">Ingrese escala</span>
+                  </div>
                 </div>
               </div>
               <div class="col-2">
@@ -131,9 +165,9 @@
                   <label for="">Lengua Materna</label>
                   <select [(ngModel)]="alumno.alu_lenguamat" class="form-control form-control-sm"
                     formControlName="lenguaMaterna">
-                    <option value="F">CASTELLANO</option>
-                    <option value="M">QUECHUA</option>
-                    <option value="C">AYMARA</option>
+                    <option value="CASTELLANO">CASTELLANO</option>
+                    <option value="QUECHUA">QUECHUA</option>
+                    <option value="AYMARA">AYMARA</option>
                   </select>
                 </div>
               </div>
@@ -142,9 +176,9 @@
                   <label for="">Estado Civil</label>
                   <select [(ngModel)]="alumno.alu_estadocivil" class="form-control form-control-sm"
                     formControlName="estadoCivil">
-                    <option value="F">SOLTERO</option>
-                    <option value="M">CASADO</option>
-                    <option value="C">CONVIVIENTE</option>
+                    <option value="S">SOLTERO</option>
+                    <option value="C">CASADO</option>
+                    <option value="V">CONVIVIENTE</option>
                   </select>
                 </div>
               </div>
@@ -153,8 +187,8 @@
                   <label for="">Religión</label>
                   <select [(ngModel)]="alumno.alu_religion" class="form-control form-control-sm"
                     formControlName="religion">
-                    <option value="F">CATÓLICO</option>
-                    <option value="M">EVANGELICO</option>
+                    <option value="CATÓLICO">CATÓLICO</option>
+                    <option value="EVANGELICO">EVANGELICO</option>
                   </select>
                 </div>
               </div>
@@ -326,14 +360,8 @@
       </div>
     </div>
     <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
-      <ag-grid-angular 
-        #agGrid
-        style="width: 100%px; height: 500px" 
-        class="ag-theme-alpine" 
-        [rowData]="rowData"
-        [columnDefs]="columnDefs" 
-        [defaultColDef]="defaultColDef" 
-        rowSelection="single"
+      <ag-grid-angular #agGrid style="width: 100%px; height: 500px" class="ag-theme-alpine" [rowData]="rowData"
+        [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" rowSelection="single"
         (gridReady)="OnGridReady($event)">
       </ag-grid-angular>
     </div>
