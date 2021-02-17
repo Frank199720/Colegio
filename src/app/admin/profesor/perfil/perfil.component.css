@@ -1,0 +1,11 @@
+mat-form-field{
+    width: 80%;
+}
+.btn-lg{
+    width: 200px;
+}
+.btn-al{
+    width: 100%;
+    float: left;
+    margin: 5%;
+}

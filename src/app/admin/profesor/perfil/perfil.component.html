@@ -1,1 +1,67 @@
-<p>perfil works!</p>
+<mat-grid-list cols="2" rowHeight="80px">
+    <mat-grid-tile colspan="2">
+        <mat-card-title>Datos Personales</mat-card-title>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+        <div class="btn-al">
+            <button type="button" class="btn btn-success" (click)="habilitar()"><i class="far fa-edit"></i> Editar</button>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombres</mat-label>
+            <input [(ngModel)]="profesor.per_nombres" matInput placeholder="Nombres" [formControl]="nombres">
+            <mat-error *ngIf="nombres.hasError('required')">Ingrese nombres</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Apellidos</mat-label>
+            <input [(ngModel)]="profesor.per_apellidos" matInput placeholder="Apellidos" [formControl]="apellidos">
+            <mat-error *ngIf="apellidos.hasError('required')">Ingrese apellidos</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>DNI</mat-label>
+            <input [(ngModel)]="profesor.per_dni" matInput maxlength="8" placeholder="12345678" [formControl]="dni">
+            <mat-error *ngIf="dni.hasError('required')">Ingrese DNI</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Direccion</mat-label>
+            <input [(ngModel)]="profesor.per_direccion" matInput placeholder="Direccion" [formControl]="direccion">
+            <mat-error *ngIf="direccion.hasError('required')">Ingrese direccion</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Estado Civil</mat-label>
+            <mat-select [(ngModel)]="profesor.per_estadocivil" [formControl]="estCivil">
+                <mat-option value="SOLTERO">SOLTERO</mat-option>
+                <mat-option value="CASADO">CASADO</mat-option>
+                <mat-option value="CONVIVIENTE">CONVIVIENTE</mat-option>
+            </mat-select>
+            <mat-error *ngIf="estCivil.hasError('required')">Seleccione estado civil</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Telefono</mat-label>
+            <input [(ngModel)]="profesor.per_telefono" matInput type="text" placeholder="Tel: 123456789" [formControl]="telefono">
+            <mat-error *ngIf="telefono.hasError('required')">Ingrese telefono</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <mat-form-field appearance="fill">
+            <mat-label>Seguro Social</mat-label>
+            <input [(ngModel)]="profesor.per_segurosocial" matInput type="text" placeholder="Seguro social" [formControl]="SegSocial">
+            <mat-error *ngIf="SegSocial.hasError('required')">Ingrese seguro social</mat-error>
+        </mat-form-field>
+    </mat-grid-tile>
+    
+    <mat-grid-tile colspan="2">
+        <button mat-flat-button color="primary" class="btn-lg" (click)="modificar()">Aceptar</button>
+    </mat-grid-tile>
+</mat-grid-list>
