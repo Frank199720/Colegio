@@ -5,7 +5,7 @@
     <div class="modal-body">
       <form   [formGroup]="formPersonal" autocomplete="off" (ngSubmit)="Guardar()">
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label for="">Nombre</label>
               <input
@@ -37,9 +37,9 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-2">
+          <div class="col-3">
             <div class="form-group">
-              <label for="">DNI/COD</label>
+              <label for="">DNI</label>
               <input
                 
                 type="text"
@@ -69,12 +69,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-2">
+          <div class="col-3">
             <div class="form-group">
               <label for="">Estado civil</label>
               <select name="per_estadocivil" id="per_estadocivil" class="form-control form-control-sm" [(ngModel)]="personal.per_estadocivil"  formControlName="sexoPersonal">
-                <option value="C">CASADO</option>
-                <option value="S">SOLTERO</option>
+                <option value="CASADO">CASADO</option>
+                <option value="SOLTERO">SOLTERO</option>
+                <option value="CONVIVIENTE">CONVIVIENTE</option>
               </select>
              
             </div>
@@ -111,16 +112,7 @@
           </div>
         </div>
         <div class="row d-flex justify-content-between">
-          <div class="col-7">
-            <div class="form-group">
-              <label for="">Departamento</label>
-              <select name="dep_cod" id="dep_cod" class="form-control form-control-sm"  formControlName="depPersonal">
-                <option [value]="dpto.dep_cod" *ngFor="let dpto of departamentos">{{dpto.dep_descripcion}}</option>
-                
-              </select>
-             
-            </div>
-          </div>
+          
           <div class="col-4">
             <div class="form-group">
               <label for="">Fecha de Ingreso</label>
@@ -133,6 +125,16 @@
                 formControlName="fechaPersonal"
                 [(ngModel)]="personal.per_ingreso"
               />
+              
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <label for="">Nivel</label>
+              <select [(ngModel)]="personal.niv_cod" class="form-control form-control" formControlName="nivel">
+                <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
+              </select>
               
             </div>
           </div>

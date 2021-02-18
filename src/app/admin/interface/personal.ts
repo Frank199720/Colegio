@@ -8,5 +8,5 @@ export interface Personal {
     per_telefono?:string;
     per_segurosocial?:string;
     per_ingreso?:string;
- 
+    niv_cod?:Number;
 }

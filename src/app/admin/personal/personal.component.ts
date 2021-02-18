@@ -5,6 +5,7 @@ import { Departamento } from "../interface/departamento";
 import { Personal } from "../interface/personal";
 import { DepartamentosService } from "../services/departamentos.service";
 import { PersonalService } from "../services/personal.service";
+import { CursoService } from "../services/curso.service";
 
 //Complementos
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -17,6 +18,8 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import Swal from "sweetalert2";
+import { CursosaComponent } from "../profesor/cursosa/cursosa.component";
+import { Nivel } from "../interface/nivel";
 
 @Component({
   selector: "app-personal",
@@ -38,7 +41,7 @@ export class PersonalComponent implements OnInit {
     { field: "per_nombres", headerName: "NOMBRES" },
     { field: "per_direccion", headerName: "DIRECCION", resizable: true },
     { field: "per_ingreso", headerName: "Fecha de Ingreso",filterParams: filterParams},
-    { field: "dep_descripcion", headerName: "DEPARTAMENTO", resizable: true },
+    //{ field: "dep_descripcion", headerName: "DEPARTAMENTO", resizable: true },
     { field: "dep_cod", headerName: "COD DEP", resizable: true, hide:true},  
   ];
   rowData: any;
@@ -66,17 +69,21 @@ export class PersonalComponent implements OnInit {
     per_ingreso: null,
   };
   personals: Personal[];
+  niveles:Nivel[];
   constructor(
     private formBuilder: FormBuilder,
     private modal: NgbModal,
     private personalService: PersonalService,
-    private departamentoService: DepartamentosService
+    private departamentoService: DepartamentosService,
+    private cursoService: CursoService
   ) {
     departamentoService.getDep().subscribe((data: Departamento[]) => {
       this.departamentos = data;
     });
     this.getPersona();
-    
+    cursoService.getNiveles().subscribe((data:Nivel[])=>{
+      this.niveles = data;
+    });
   }
   openSave(modalPersonal) {
     this.editing = false;
@@ -169,8 +176,8 @@ export class PersonalComponent implements OnInit {
       telefonoPersonal: [, [Validators.required]],
       seguroPersonal: [, [Validators.required]],
       fechaPersonal: [, Validators.required],
-      depPersonal: [, Validators.required],
-      sexoPersonal: [, Validators.required],
+      //depPersonal: [, Validators.required],
+      //sexoPersonal: [, Validators.required],
     });
   }
   getPersona() {
