@@ -40,15 +40,19 @@ export class MatriculaComponent implements OnInit {
   anio_current: string;
   current_date: string;
   columnDefs = [
-    { field: "mat_num", headerName: "N° MATRICULA", width: "100" },
-    
-    { field: "alu_dni", headerName: "COD ALUMNO" },
-    { field: "mat_fechar", headerName: "FECHA REGISTRO" },
-    { field: "niv_descripcion", headerName: "NIVEL", resizable: true },
-    { field: "gra_descripcion", headerName: "GRADO" },
-    { field: "sec_letra", headerName: "SECCION", resizable: true },
-    { field: "mat_anio", headerName: "AÑO ESCOLAR", resizable: true },
+    { field: "mat_num", headerName: "MATRICULA", minWidth: 140, maxWidth: 150},
+    { field: "alu_dni", headerName: "DNI", flex: 1, minWidth: 110, maxWidth: 120 },
+    { field: "alu_apellidop", headerName: "A. PATERNO", flex: 1, minWidth: 150, maxWidth: 160 },
+    { field: "alu_apellidom", headerName: "A. MATERNO", flex: 1, minWidth: 150, maxWidth: 160 },
+    { field: "alu_nombres", headerName: "NOMBRES", flex: 1, minWidth: 180, maxWidth: 250 },
+    { field: "niv_descripcion", headerName: "NIVEL", flex: 1, minWidth: 100, maxWidth: 120 },
+    { field: "gra_descripcion", headerName: "GRADO", flex: 1, minWidth: 100, maxWidth: 110 },
+    { field: "sec_letra", headerName: "SECCION", flex: 1, minWidth: 110, maxWidth: 111},
+    { field: "mat_anio", headerName: "AÑO ESCOLAR", flex: 1, minWidth: 100, maxWidth: 150 },
   ];
+
+  defaultColDef = { resizable: true, sortable: true};
+
   rowData: any;
   matricula: Matricula = {
     mat_num: null,
@@ -278,6 +282,8 @@ export class MatriculaComponent implements OnInit {
     this.matriculaService.getMatricula().subscribe(
       (data) => {
         this.rowData = data;
+      console.log(data);
+
       },
       (error) => {
         console.log("Ocurrio un error");
