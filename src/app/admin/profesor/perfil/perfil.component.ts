@@ -22,12 +22,12 @@ export class PerfilComponent implements OnInit {
   profesor:Personal = null;
 
   constructor(private personalServices:PersonalService) { 
-    // this.personalServices.show('15498672').subscribe((data:Personal)=>{
-    //   this.profesor = data[0];
-    //   //console.log(data[0].dep_cod);
-    // },error=>{
-    //   console.log(error);
-    // });
+    this.personalServices.show('15498676').subscribe((data:Personal)=>{
+      this.profesor = data;
+      //console.log(this.profesor);
+    },error=>{
+      console.log(error);
+    });
   }
 
   ngOnInit(): void {
