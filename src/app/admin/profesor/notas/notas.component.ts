@@ -88,7 +88,7 @@ export class NotasComponent implements OnInit {
   }
   createRowData(){
     var rowData = [];
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 3; i++) {
     rowData.push({
       a: "Codigo Alumno"+i,
       b: "Apellidos y Nombres",
@@ -139,7 +139,7 @@ export class NotasComponent implements OnInit {
       console.log(i);
     });
     
-    
+    console.log(JSON.stringify(this.notas));
     
     
      
