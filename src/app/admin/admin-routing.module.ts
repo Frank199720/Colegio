@@ -19,7 +19,7 @@ const routes:Routes=[
     children:[
       { path:'perfil', component:PerfilComponent },
       { path:'cursoa', component:CursosaComponent },
-      { path:'notas', component:NotasComponent }
+      { path:'notas/:idcurso/:idgrado/:idseccion', component:NotasComponent }
     ]
   },
   {
