@@ -30,7 +30,7 @@ const routes:Routes=[
       {path:'curso' , component:CursoComponent},
       {path:'personal' , component:PersonalComponent},
       {path:'matricula' , component:MatriculaComponent},
-      {path:'notas/:id' , component:NotasGenComponent},
+      
       {path:'home' , component:HomeComponent},
       {path:'**' , redirectTo:'home'}
     ]

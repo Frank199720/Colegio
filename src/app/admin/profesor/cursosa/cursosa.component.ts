@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
@@ -21,7 +22,7 @@ export class CursosaComponent implements OnInit {
     Seccion: 'Seccion',
     Alumnos: 'Alumnos',
   }];
-  constructor() { 
+  constructor(private router:Router) { 
     this.columnDefs = [
       {
         headerName: "Curso",
@@ -73,6 +74,9 @@ export class CursosaComponent implements OnInit {
     const selectedData = selectedNodes.map(node => node.data );
     //this.datos = selectedData.map(node=>node.alu_dni);
     console.log(selectedData[0]);
+    const ruta= "colegio/profesor/notas/1/2/3"
+    this.router.navigateByUrl(ruta);
+    
   }
 
 }

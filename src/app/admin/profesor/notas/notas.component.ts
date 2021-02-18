@@ -112,12 +112,7 @@ export class NotasComponent implements OnInit {
     let obj={};
     var i=0;
     this.rowData.forEach(item => {
-      this.nota.cur_cod=this.idcurso;
-      this.nota.mat_num='1234';
-      this.nota.alu_dni='12345678';
-      this.nota.no_calificacion=item.c;
-      this.nota.no_periodo=1;
-      console.log(this.nota);
+      
       
      this.notas.push({
        cur_cod:this.idcurso,
@@ -143,13 +138,10 @@ export class NotasComponent implements OnInit {
       i++;
       console.log(i);
     });
-    for(let item in this.rowData){
-        
-    }
-    let json=JSON.stringify(this.rowData);
-    let json2=JSON.stringify(this.notas);
     
-    console.log(json2);
+    
+    
+    
      
     
   }
