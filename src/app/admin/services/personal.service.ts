@@ -18,7 +18,7 @@ export class PersonalService {
   }
   show(id){
     //return this.httpCliente.get(this.RUTA_API + '/personals/' + id);
-    return this.httpCliente.get(this.RUTA_API + '/personals/?id=' + id);
+    return this.httpCliente.get(this.RUTA_API + '/personals/' + id);
     //return this.httpCliente.get('http://127.0.0.1:8000/api/personals/?id=15498672');
   }
   editar(personal:Personal){

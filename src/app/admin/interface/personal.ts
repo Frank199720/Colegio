@@ -2,7 +2,6 @@ export interface Personal {
     per_dni?:string;
     per_apellidos?:string;
     per_nombres?:string;
-    dep_cod?:number;
     dep_descripcion?:string;
     per_direccion?:number;
     per_estadocivil?:string;
