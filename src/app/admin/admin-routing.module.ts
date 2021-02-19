@@ -17,6 +17,7 @@ const routes:Routes=[
   {
     path:'profesor', component:PrincipalComponent,
     children:[
+      {path:'home' , component:HomeComponent},
       { path:'perfil', component:PerfilComponent },
       { path:'cursoa', component:CursosaComponent },
       { path:'notas/:idcurso/:idgrado/:idseccion', component:NotasComponent }

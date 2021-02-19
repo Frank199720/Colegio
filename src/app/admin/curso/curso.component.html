@@ -25,7 +25,7 @@
             <span class="form-text text-danger" *ngIf="abreviatura.errors.maxlength">Maximo 2 letras</span>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-8" *ngIf="!editing">
           <label for="nivel">Nivel</label>
           <select [(ngModel)]="curso.niv_cod" class="form-control form-control" formControlName="nivel">
             <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!formCurso.valid"><i class="far fa-save"></i> Guardar</button>
+        <button class="btn btn-primary" type="submit" ><i class="far fa-save"></i> Guardar</button>
         <button class="btn btn-danger" (click)="cerrar()"><i class="far fa-times-circle"></i> Cancelar</button>
       </div>
     </form>
