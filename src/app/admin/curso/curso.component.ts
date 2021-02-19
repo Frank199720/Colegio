@@ -61,7 +61,13 @@ export class CursoComponent implements OnInit {
     { 
       headerName: "CURSO", 
       field: 'cur_descripcion',
-      flex: 3,
+      flex: 2,
+      minWidth: 200,
+    },
+    { 
+      headerName: "GRADO", 
+      field: 'gra_descripcion',
+      flex: 2,
       minWidth: 200,
     },
     { 
@@ -198,49 +204,57 @@ export class CursoComponent implements OnInit {
   }
 
   guardar(){
-    if (this.editing) {
-      this.cursoServices.update(this.curso, this.id_curso).subscribe((data)=>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Curso Guardado',
-          showConfirmButton: false,
-          timer: 1500,
+    if (!this.formCurso.invalid) {
+      if (this.editing) {
+        this.cursoServices.update(this.curso, this.id_curso).subscribe((data)=>{
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Curso Guardado',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.getCursos();
+        },(error)=>{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'A ocurrido un error!',
+            showConfirmButton: false,
+            timer: 1800,
+          });
         });
-        this.getCursos();
-      },(error)=>{
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'A ocurrido un error!',
-          showConfirmButton: false,
-          timer: 1800,
+      }
+      else{
+        console.log(this.curso);
+        this.cursoServices.store(this.curso).subscribe((data)=>{
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Curso Guardado',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.getCursos();
+        },(error)=>{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'A ocurrido un error!',
+            showConfirmButton: false,
+            timer: 1800,
+          });
         });
+      }
+      this.limpiarForm();
+      this.modal.dismissAll();
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: "Hay campos vacios",
       });
     }
-    else{
-      console.log(this.curso);
-      this.cursoServices.store(this.curso).subscribe((data)=>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Curso Guardado',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.getCursos();
-      },(error)=>{
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'A ocurrido un error!',
-          showConfirmButton: false,
-          timer: 1800,
-        });
-      });
-    }
-    this.limpiarForm();
-    this.modal.dismissAll();
   }
 
   cerrar(){

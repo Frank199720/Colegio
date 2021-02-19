@@ -7,6 +7,7 @@ import { Departamento } from '../interface/departamento';
 import { Provincia } from '../interface/provincia';
 import { Distrito } from '../interface/distrito';
 import { Alumno } from '../interface/alumno';
+import { AluDomicilio } from '../interface/alu-domicilio';
 import Swal from 'sweetalert2';
 import { stringify } from '@angular/compiler/src/util';
 
@@ -24,7 +25,7 @@ export class AlumnoComponent implements OnInit {
     return new FormGroup({
       codModular: new FormControl('', [Validators.required, Validators.maxLength(3)]),
       dni: new FormControl('', [Validators.required, Validators.maxLength(8), Validators.minLength(8)]),
-      nroMatricula: new FormControl('', [Validators.required]),
+      nroMatricula: new FormControl(''),
       apPaterno: new FormControl('', [Validators.required]),
       apMaterno: new FormControl('', [Validators.required]),
       nombres: new FormControl('', [Validators.required]),
@@ -45,14 +46,8 @@ export class AlumnoComponent implements OnInit {
       direccion: new FormControl('', [Validators.required]),
       telefono: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]),
       depDomicilio: new FormControl('', [Validators.required]),
-      provDomicilio: new FormControl('', [Validators.required]),
-      distDomicilio: new FormControl('', [Validators.required]),
-      transporte: new FormControl('', [Validators.required]),
-      tiempoDemora: new FormControl('', [Validators.required]),
-      materialVivienda: new FormControl('', [Validators.required]),
-      electricidad: new FormControl('', [Validators.required]),
-      aguaPotable: new FormControl('', [Validators.required]),
-      desague: new FormControl('', [Validators.required]),
+      provDomicilio: new FormControl({value: '', disabled: true}, [Validators.required]),
+      distDomicilio: new FormControl({value: '', disabled: true}, [Validators.required]),
     });
   }
 
@@ -81,12 +76,6 @@ export class AlumnoComponent implements OnInit {
   get depDomicilio() { return this.formAlumno.get('depDomicilio'); }
   get provDomicilio() { return this.formAlumno.get('provDomicilio'); }
   get distDomicilio() { return this.formAlumno.get('distDomicilio'); }
-  get transporte() { return this.formAlumno.get('transporte'); }
-  get tiempoDemora() { return this.formAlumno.get('tiempoDemora'); }
-  get materialVivienda() { return this.formAlumno.get('materialVivienda'); }
-  get electricidad() { return this.formAlumno.get('electricidad'); }
-  get aguaPotable() { return this.formAlumno.get('aguaPotable'); }
-  get desague() { return this.formAlumno.get('desague'); }
 
   private gridApi;
   private gridColumnApi;
@@ -103,12 +92,20 @@ export class AlumnoComponent implements OnInit {
   provincia: Provincia;
   distritos: Distrito[];
   distrito: Distrito;
+  departsDomicilio: Departamento[];
+  departDomicilio: Departamento;
+  provinsDomicilio: Provincia[];
+  provinDomicilio: Provincia;
+  distrisDomicilio: Distrito[];
+  distriDomicilio: Distrito;
   /*alumno: Alumno = {
     department_id: null,
   };*/
   alumno: Alumno={};
   alumnoini:Alumno={};
   alumnos: Alumno[];
+  adomicilio: AluDomicilio={};
+  adomicilioini: AluDomicilio={};
   dni_alumno;
   escalaArray=['A','B','C','D','E'];
 
@@ -168,7 +165,7 @@ export class AlumnoComponent implements OnInit {
     this.formAlumno = this.createFormGroup();
     alumnoService.getDepartamentos().subscribe((data: Departamento[]) => {
       this.departamentos = data;
-      //console.log(this.departamentos);
+      this.departsDomicilio = data;
     });
   }
 
@@ -195,22 +192,22 @@ export class AlumnoComponent implements OnInit {
     if(selectedData.length > 0){
       this.editing=true;
       this.accion='Editar';
-      /*this.provAlumno.enable();
-      this.distAlumno.enable();  */
-      //console.log(this.dni_alumno);
-      //console.log(selectedData);
       selectedData.map((node)=>{
         this.alumno = node;
       });
-      //console.log("Antes: " + this.alumno.alu_nombres);
-      /*this.alumnoService.getProvincias(this.alumno.department_id).subscribe((data: Provincia[]) => {
-        this.provincias = data;
-      });*/
       this.departamentoD();
       this.provinciaD();
-      console.log("Departamento" + this.alumno.department_id);
+      this.alumnoService.showDomicilio(this.alumno.alu_dni).subscribe((data:AluDomicilio)=>{
+        this.adomicilio = data;
+        this.departamentoDom();
+        this.provinciaDom();
+      });
+      //console.log(this.adomicilio.department_id);
+      
+      /*console.log("Departamento" + this.alumno.department_id);
       console.log("Provincia" + this.alumno.province_id);
-      console.log("Distrito" + this.alumno.district_id);
+      console.log("Distrito" + this.alumno.district_id);*/
+
       //this.provAlumno.disable();
       /*console.log("Departamento" + this.depAlumno);
       console.log("Provincia" + this.alumno.province_id);
@@ -239,7 +236,7 @@ export class AlumnoComponent implements OnInit {
   }
 
   guardar() {
-    //if(!this.formAlumno.invalid){
+    if(!this.formAlumno.invalid){
       if (this.editing) {
         //console.log("despues" + this.alumno.alu_nombres);
         this.alumnoService.update(this.alumno,this.alumno.alu_dni).subscribe(data=>{
@@ -260,6 +257,9 @@ export class AlumnoComponent implements OnInit {
             timer: 1500,
           });
         });
+        this.alumnoService.updateDomicilio(this.adomicilio, this.adomicilio.alu_dni).subscribe(data=>{});
+        console.log(this.adomicilio);
+        console.log(this.adomicilio.alu_dni);
       } else {
         //console.log(this.alumno);
         this.alumnoService.store(this.alumno).subscribe(data=>{
@@ -280,16 +280,26 @@ export class AlumnoComponent implements OnInit {
             timer: 1500,
           });
         });
+        this.adomicilio.alu_dni=this.alumno.alu_dni;
+        this.alumnoService.storeDomicilio(this.adomicilio);
       }
-    /*} else {
+    } else {
       Swal.fire({
         icon:"error",
         title:'Ocurrió un error',
         text:'Hay campos invalidos'
       });
-    }*/
+    }
     this.limpiarForm();
     this.modal.dismissAll();
+
+    /*this.adomicilio.alu_dni=this.alumno.alu_dni;
+    this.alumnoService.storeDomicilio(this.adomicilio).subscribe(data=>{
+      console.log(this.adomicilio);
+    },error=>{
+      console.log(error);
+    });
+    this.modal.dismissAll();*/
   }
 
   eliminar() {
@@ -333,7 +343,7 @@ export class AlumnoComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Selecciona un curso!',
+        text: 'Selecciona un alumno!',
         showConfirmButton: false,
         timer: 1500,
       });
@@ -358,7 +368,13 @@ export class AlumnoComponent implements OnInit {
     this.distritos=null;
     this.provAlumno.disable();
     this.distAlumno.disable();
+    this.adomicilio=this.adomicilioini;
+    this.provinsDomicilio=null;
+    this.distrisDomicilio=null;
+    this.provDomicilio.disable();
+    this.distDomicilio.disable();
     this.formAlumno.reset();
+    this.getAlumnos();
   }
   
   getAlumnos() {
@@ -388,7 +404,22 @@ export class AlumnoComponent implements OnInit {
     //console.log(this.alumno.province_id);
   }
 
-  /*provAlumno() {
-    
-  }*/
+  departamentoDom() {
+    this.alumnoService.getProvincias(this.adomicilio.department_id).subscribe((data: Provincia[]) => {
+      this.provinsDomicilio = data;
+      //console.log(this.adomicilio.department_id);
+    });
+    this.provDomicilio.enable();
+    //console.log("departamento" + this.alumno.department_id);
+    /*console.log(this.adomicilio.department_id);
+    console.log(this.adomicilio);*/
+  }
+
+  provinciaDom() {
+    this.alumnoService.getDistritos(this.adomicilio.province_id).subscribe((data: Distrito[]) => {
+      this.distrisDomicilio = data;
+    });
+    this.distDomicilio.enable();
+    //console.log(this.alumno.province_id);
+  }
 }
