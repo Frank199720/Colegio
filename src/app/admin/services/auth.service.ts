@@ -6,12 +6,14 @@ import { Route } from '@angular/compiler/src/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private Route="";
+  private Route="http://127.0.0.1:8000/api";
   
   constructor(private httpCLient:HttpClient) {
 
   }
-  login(){
-    
+  login(login:string , password:string){
+
+    return this.httpCLient.get(this.Route+'/'+login+'/'+password);
   }
+  
 }
