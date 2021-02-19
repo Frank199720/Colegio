@@ -13,7 +13,7 @@ export class NotasGenComponent implements OnInit {
   ngOnInit(): void {
   }
   curso:Curso={
-    niv_cod:null,
+    gra_cod :null,
     cur_abreviatura:null,
     cur_descripcion:null
   };

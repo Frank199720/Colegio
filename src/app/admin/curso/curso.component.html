@@ -27,7 +27,7 @@
         </div>
         <div class="col-8">
           <label for="nivel">Nivel</label>
-          <select [(ngModel)]="curso.niv_cod" class="form-control form-control" formControlName="nivel">
+          <select [(ngModel)]="curso.gra_cod" class="form-control form-control" formControlName="nivel">
             <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
           </select>
           <div *ngIf="nivel.invalid && (nivel.dirty || nivel.touched)">

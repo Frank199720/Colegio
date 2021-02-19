@@ -13,7 +13,9 @@ export class CursoService {
   getNiveles(){
     return this.httpCliente.get(this.RUTA_API + '/niveles');
   }
-
+  getCursoByGrado(codGrado:number){
+    return this.httpCliente.get(this.RUTA_API+'/cursobygrado/'+codGrado)
+  }
   index(){
     return this.httpCliente.get(this.RUTA_API + '/cursos');
   }

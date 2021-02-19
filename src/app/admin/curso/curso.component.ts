@@ -36,13 +36,13 @@ export class CursoComponent implements OnInit {
   curso:Curso={
     cur_descripcion:null,
     cur_abreviatura:null,
-    niv_cod:null
+    gra_cod:null
   };
 
   cursoini:Curso={
     cur_descripcion:null,
     cur_abreviatura:null,
-    niv_cod:null
+    gra_cod:null
   };
 
   rowData:any;

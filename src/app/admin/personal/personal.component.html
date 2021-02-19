@@ -167,8 +167,8 @@
       <div class="col-2">
         <div class="form-group">
           <label for="">Seccion</label>
-          <select class="form-control">
-            <option [value]="item.sec_cod" *ngFor="let item of seccion">
+          <select class="form-control" [(ngModel)]="seccionid" (change)="actualizarCurso()">
+            <option [value]="item.sec_cod" *ngFor="let item of seccion" >
               {{ item.sec_letra }}
             </option>
           </select>
@@ -187,12 +187,16 @@
       <div class="col-12">
         <div class="form-group">
           <label for="">Curso</label>
-          <select class="form-control"></select>
+          <select class="form-control" [(ngModel)]="cursoid">
+            <option [value]="item.cur_cod" *ngFor="let item of curso" >
+              {{ item.cur_descripcion }}
+            </option>
+          </select>
         </div>
       </div>
     </div>
     <div class="row mt-1">
-      <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
+      <div id="myGrid2" class="ag-theme-alpine" style="width: 100%;">
         <ag-grid-angular
           style="width: 100%px; height: 500px"
           class="ag-theme-alpine"
@@ -206,6 +210,10 @@
         >
         </ag-grid-angular>
       </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="GuardarAsignacion()" class="btn btn-primary">Guardar</button>
       
     </div>
   </div>

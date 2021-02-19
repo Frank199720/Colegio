@@ -23,6 +23,12 @@ import { Nivel } from "../interface/nivel";
 import { MatriculaService } from "../services/matricula.service";
 import { Grado } from "../interface/grado";
 import { Seccion } from "../interface/seccion";
+import { Asignacion } from '../interface/asignacion';
+import { elementEventFullName } from "@angular/compiler/src/view_compiler/view_compiler";
+import { stringify } from '@angular/compiler/src/util';
+import { Curso } from '../interface/curso';
+import { ThisReceiver } from "@angular/compiler";
+import { AsignacionService } from '../services/asignacion.service';
 
 @Component({
   selector: "app-personal",
@@ -31,17 +37,23 @@ import { Seccion } from "../interface/seccion";
 })
 export class PersonalComponent implements OnInit {
   accion: string;
+  seccionid;
   formPersonal: FormGroup;
   id_personal: any;
   editing: boolean;
   gridApi: any;
   gridApiAsignacion: any;
+  curso:Curso[];
   departamentos: Departamento[];
   idPersona:string;
   grado: Grado[];
   seccion: Seccion[];
+  private asignacion:Asignacion;
+  private asignacionArray:Asignacion[]=[];
   private idCurso: string;
+  cursoid:number;
   gradoid: number;
+  
   //Definicion de GRID
   columnAsignacion = [
     { field: "per_dni", headerName: "DNI", width: "100", hide: true },
@@ -51,7 +63,7 @@ export class PersonalComponent implements OnInit {
     { field: "gra_descripcion", headerName: "Grado" },
     { field: "sec_letra", headerName: "Seccion" },
   ];
-  rowAsignacion: any[] =[];
+  rowAsignacion: any;
   columnDefs = [
     { field: "per_dni", headerName: "DNI", width: "100" },
     { field: "per_apellidos", headerName: "APELLIDOS" },
@@ -98,7 +110,9 @@ export class PersonalComponent implements OnInit {
     private personalService: PersonalService,
     private departamentoService: DepartamentosService,
     private cursoService: CursoService,
-    private matriculaService: MatriculaService
+    private matriculaService: MatriculaService,
+    private asignacionService:AsignacionService
+  
   ) {
     // departamentoService.getDep().subscribe((data: Departamento[]) => {
     //   this.departamentos = data;
@@ -261,6 +275,10 @@ export class PersonalComponent implements OnInit {
     }
   }
   asignarCurso(modal) {
+  
+    this.asignacionService.getAsignacionByPersonal(this.idPersona).subscribe((data)=>{
+      this.rowAsignacion=data;
+    })
     this.modal.open(modal, { size: "lg", backdrop: "static" });
     this.listaGrado();
   }
@@ -278,7 +296,7 @@ export class PersonalComponent implements OnInit {
     this.matriculaService.getSeccionByGrade(this.gradoid).subscribe(
       (data: Seccion[]) => {
         this.seccion = data;
-        console.log("xd");
+        this.seccionid=null;
       },
       (error) => {
         console.log(error);
@@ -287,8 +305,7 @@ export class PersonalComponent implements OnInit {
   }
   onSelectionChanged(params) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("xd");
-    console.log(selectedRows);
+    
     this.idCurso = selectedRows[0].niv_cod;
     this.idPersona = selectedRows[0].per_dni;
   }
@@ -299,20 +316,38 @@ export class PersonalComponent implements OnInit {
     });
     this.printResult(res);
     this.getRowData();
-    console.log(this.rowAsignacion)
     
+    this.cursoid=null;
+    //this.seccionid=null;
   }
   createNewRowData() {
+    console.log(this.grado);
+    let descripcion_grado:Grado;
+    let descripcion_seccion:Seccion;
+    let descripcion_curso:Curso;
+    this.grado.forEach(element => {
+      if(element.gra_cod==this.gradoid)
+        descripcion_grado=element;
+    });
+    console.log(this.seccionid)
+    this.seccion.forEach(element => {
+      if(element.sec_cod==this.seccionid)
+      descripcion_seccion=element;
+    });
+    this.curso.forEach(element => {
+      if(element.cur_cod==this.cursoid)
+      descripcion_curso=element;
+    });
+ 
     var newData = {
       per_dni: this.idPersona,
-      cur_cod: "1",
-      sec_cod: "1",
-      cur_descripcion: "Headless",
-      gra_descripcion: "Little",
-      sec_letra: "Airbag",
+      cur_cod: descripcion_curso.cur_cod,
+      sec_cod: descripcion_seccion.sec_cod,
+      cur_descripcion: descripcion_curso.cur_descripcion,
+      gra_descripcion: descripcion_grado.gra_descripcion,
+      sec_letra: descripcion_seccion.sec_letra
     };
     
-
     return newData;
   }
   printResult(res) {
@@ -340,6 +375,49 @@ export class PersonalComponent implements OnInit {
       console.log('xd');
     });
     console.log(rowData);
+  }
+  GuardarAsignacion(){
+    var rowDatax = [];
+    
+    this.gridApiAsignacion.forEachNode(function (node) {
+      rowDatax.push(node.data);
+      
+    });
+    console.log()
+    rowDatax.forEach(element => {
+      this.asignacionArray.push({
+        per_dni:this.idPersona,
+        cur_cod:element.cur_cod,
+        sec_cod:element.sec_cod
+      })
+    });
+    console.log(JSON.stringify(this.asignacionArray) );
+    // this.asignacionService.deleteAsignacion(this.idPersona).subscribe((data)=>{
+      
+    // })
+    this.asignacionService.deleteAsignacion(this.idPersona).subscribe((data)=>{
+      this.asignacionService.insertAsignacion(JSON.stringify(this.asignacionArray)).subscribe(
+        (data)=>{
+          console.log(data)
+        },
+        (error)=>{
+          console.log(error);
+        }
+      )
+    })
+    this.asignacionArray=[];
+  }
+  actualizarCurso(){
+    console.log(this.gradoid);
+    this.cursoService.getCursoByGrado(this.gradoid).subscribe(
+      (data: Curso[]) => {
+        this.curso = data;
+        
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }
 
