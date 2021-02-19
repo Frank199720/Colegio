@@ -20,6 +20,9 @@ import {
 import Swal from "sweetalert2";
 import { CursosaComponent } from "../profesor/cursosa/cursosa.component";
 import { Nivel } from "../interface/nivel";
+import { MatriculaService } from "../services/matricula.service";
+import { Grado } from "../interface/grado";
+import { Seccion } from "../interface/seccion";
 
 @Component({
   selector: "app-personal",
@@ -32,19 +35,38 @@ export class PersonalComponent implements OnInit {
   id_personal: any;
   editing: boolean;
   gridApi: any;
+  gridApiAsignacion: any;
   departamentos: Departamento[];
+  idPersona:string;
+  grado: Grado[];
+  seccion: Seccion[];
+  private idCurso: string;
+  gradoid: number;
   //Definicion de GRID
-   
+  columnAsignacion = [
+    { field: "per_dni", headerName: "DNI", width: "100", hide: true },
+    { field: "cur_cod", headerName: "Codigo Curso", hide: true },
+    { field: "sec_cod", headerName: "Codigo seccion", hide: true },
+    { field: "cur_descripcion", headerName: "Curso" },
+    { field: "gra_descripcion", headerName: "Grado" },
+    { field: "sec_letra", headerName: "Seccion" },
+  ];
+  rowAsignacion: any[] =[];
   columnDefs = [
     { field: "per_dni", headerName: "DNI", width: "100" },
     { field: "per_apellidos", headerName: "APELLIDOS" },
     { field: "per_nombres", headerName: "NOMBRES" },
     { field: "per_direccion", headerName: "DIRECCION", resizable: true },
-    { field: "per_ingreso", headerName: "Fecha de Ingreso",filterParams: filterParams},
+    {
+      field: "per_ingreso",
+      headerName: "Fecha de Ingreso",
+      filterParams: filterParams,
+    },
     //{ field: "dep_descripcion", headerName: "DEPARTAMENTO", resizable: true },
-    { field: "dep_cod", headerName: "COD DEP", resizable: true, hide:true},  
+    { field: "dep_cod", headerName: "COD DEP", resizable: true, hide: true },
   ];
   rowData: any;
+
   //Definicion de Personal
   personal: Personal = {
     per_dni: null,
@@ -69,19 +91,20 @@ export class PersonalComponent implements OnInit {
     per_ingreso: null,
   };
   personals: Personal[];
-  niveles:Nivel[];
+  niveles: Nivel[];
   constructor(
     private formBuilder: FormBuilder,
     private modal: NgbModal,
     private personalService: PersonalService,
     private departamentoService: DepartamentosService,
-    private cursoService: CursoService
+    private cursoService: CursoService,
+    private matriculaService: MatriculaService
   ) {
-    departamentoService.getDep().subscribe((data: Departamento[]) => {
-      this.departamentos = data;
-    });
+    // departamentoService.getDep().subscribe((data: Departamento[]) => {
+    //   this.departamentos = data;
+    // });
     this.getPersona();
-    cursoService.getNiveles().subscribe((data:Nivel[])=>{
+    cursoService.getNiveles().subscribe((data: Nivel[]) => {
       this.niveles = data;
     });
   }
@@ -97,16 +120,15 @@ export class PersonalComponent implements OnInit {
       this.editing = true;
       console.log(this.id_personal);
       this.accion = "Edicion de personal";
-          this.personal = this.rowData.find((m) => {
-          return m.per_dni == this.id_personal;
-        });
-        
-        this.modal.open(modalPersonal, {
-          size: "lg",
-          backdrop: "static",
-          keyboard: false,
-        });
-      
+      this.personal = this.rowData.find((m) => {
+        return m.per_dni == this.id_personal;
+      });
+
+      this.modal.open(modalPersonal, {
+        size: "lg",
+        backdrop: "static",
+        keyboard: false,
+      });
     } else {
       Swal.fire({
         title: "Error",
@@ -154,13 +176,12 @@ export class PersonalComponent implements OnInit {
           }
         );
       }
-      
-    }else{
+    } else {
       Swal.fire({
-        icon:"error",
-        title:'Ocurrió un error',
-        text:'Hay campos vacios'
-      })
+        icon: "error",
+        title: "Ocurrió un error",
+        text: "Hay campos vacios",
+      });
     }
   }
   closeModal(modal) {
@@ -176,8 +197,8 @@ export class PersonalComponent implements OnInit {
       telefonoPersonal: [, [Validators.required]],
       seguroPersonal: [, [Validators.required]],
       fechaPersonal: [, Validators.required],
-      //depPersonal: [, Validators.required],
-      //sexoPersonal: [, Validators.required],
+      nivel: [, Validators.required],
+      sexoPersonal: [, Validators.required],
     });
   }
   getPersona() {
@@ -193,58 +214,139 @@ export class PersonalComponent implements OnInit {
   OnGridReady(params) {
     this.gridApi = params.api;
   }
+  OnGridReadyAsignacion(params) {
+    this.gridApiAsignacion = params.api;
+  }
   getSelectedRows() {
     const selectNode = this.gridApi.getSelectedNodes();
     const selectData = selectNode.map((node) => node.data);
     const idSelected = selectData.map((node) => node.per_dni);
     console.log(selectNode);
     this.id_personal = idSelected[0];
-    console.log(this.id_personal)
+    console.log(this.id_personal);
   }
   limpiarForm() {
-    this.personal=this.personalini;
+    this.personal = this.personalini;
   }
-  eliminar(){
+  eliminar() {
     this.getSelectedRows();
-    if(this.id_personal){
+    if (this.id_personal) {
       Swal.fire({
-        title: '¿Estás seguro de eliminar?',
+        title: "¿Estás seguro de eliminar?",
         text: "No podras revertir esta acción",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Eliminar'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.personalService.delete(this.id_personal).subscribe((data)=>{
-            Swal.fire(
-              'Deleted!',
-              'El registro se ha eliminado',
-              'success'
-            )
-            this.getPersona();
-          },(error)=>{
-            alert("No se pudo eliminar");
-          })
-          
+          this.personalService.delete(this.id_personal).subscribe(
+            (data) => {
+              Swal.fire("Deleted!", "El registro se ha eliminado", "success");
+              this.getPersona();
+            },
+            (error) => {
+              alert("No se pudo eliminar");
+            }
+          );
         }
-      })
-    }else{
+      });
+    } else {
       Swal.fire({
         title: "Error",
         text: "Selecciona una fila",
         icon: "error",
       });
     }
+  }
+  asignarCurso(modal) {
+    this.modal.open(modal, { size: "lg", backdrop: "static" });
+    this.listaGrado();
+  }
+  listaGrado() {
+    this.matriculaService.getGradobyNivel(parseFloat(this.idCurso)).subscribe(
+      (data: Grado[]) => {
+        this.grado = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  listaSeccion() {
+    this.matriculaService.getSeccionByGrade(this.gradoid).subscribe(
+      (data: Seccion[]) => {
+        this.seccion = data;
+        console.log("xd");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  onSelectionChanged(params) {
+    var selectedRows = this.gridApi.getSelectedRows();
+    console.log("xd");
+    console.log(selectedRows);
+    this.idCurso = selectedRows[0].niv_cod;
+    this.idPersona = selectedRows[0].per_dni;
+  }
+  addItems(addIdex) {
+    var newItems = [this.createNewRowData()];
+    var res = this.gridApiAsignacion.applyTransaction({
+      add: newItems,
+    });
+    this.printResult(res);
+    this.getRowData();
+    console.log(this.rowAsignacion)
     
   }
-  
+  createNewRowData() {
+    var newData = {
+      per_dni: this.idPersona,
+      cur_cod: "1",
+      sec_cod: "1",
+      cur_descripcion: "Headless",
+      gra_descripcion: "Little",
+      sec_letra: "Airbag",
+    };
+    
+
+    return newData;
+  }
+  printResult(res) {
+    
+    if (res.add) {
+      res.add.forEach(function (rowNode) {
+        
+      });
+    }
+    if (res.remove) {
+      res.remove.forEach(function (rowNode) {
+        console.log("Removed Row Node", rowNode);
+      });
+    }
+    if (res.update) {
+      res.update.forEach(function (rowNode) {
+        console.log("Updated Row Node", rowNode);
+      });
+    }
+  }
+  getRowData() {
+    var rowData = [];
+    this.gridApiAsignacion.forEachNode(function (node) {
+      rowData.push(node.data);
+      console.log('xd');
+    });
+    console.log(rowData);
+  }
 }
+
 var filterParams = {
   comparator: function (filterLocalDateAtMidnight, cellValue) {
     var dateAsString = cellValue;
-    var dateParts = dateAsString.split('/');
+    var dateParts = dateAsString.split("/");
     var cellDate = new Date(
       Number(dateParts[2]),
       Number(dateParts[1]) - 1,
