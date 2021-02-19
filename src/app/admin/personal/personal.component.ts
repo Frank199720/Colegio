@@ -395,7 +395,7 @@ export class PersonalComponent implements OnInit {
     // this.asignacionService.deleteAsignacion(this.idPersona).subscribe((data)=>{
       
     // })
-    this.asignacionService.deleteAsignacion(this.idPersona).subscribe((data)=>{
+    
       this.asignacionService.insertAsignacion(JSON.stringify(this.asignacionArray)).subscribe(
         (data)=>{
           console.log(data)
@@ -404,7 +404,7 @@ export class PersonalComponent implements OnInit {
           console.log(error);
         }
       )
-    })
+    
     this.asignacionArray=[];
   }
   actualizarCurso(){

@@ -123,6 +123,7 @@ export class CursoComponent implements OnInit {
   getCursos(){
     this.cursoServices.index().subscribe((data)=>{
       this.rowData = data;
+      console.log(data);
       //this.rowTemp = data;
     },(error)=>{
       console.log('Error:' + error);

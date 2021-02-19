@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
+import { Router } from '@angular/router';
+import { AuthService } from '../../../admin/services/auth.service';
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,10 +14,35 @@ export class LoginComponent implements OnInit {
   //   login:   ['usuario',[Validators.required]],
   //   password:   ['contraseña',Validators.required]
   // })
-  constructor(private router:Router) { }
+  login:string;
+  password:string;
+  constructor(private router:Router , private AuthService:AuthService) { }
   
-  prueba(){
-    this.router.navigateByUrl('colegio/home');
+  auth(){
+    
+    this.AuthService.login(this.login,this.password).subscribe(resp=>{
+      console.log(resp);
+      if(resp[0]){
+
+        if(resp[0].per_dni){
+          if(resp[0].usu_rol=='ADMIN'){
+            this.router.navigateByUrl('colegio/home');
+          }else{
+            this.router.navigateByUrl('colegio/profesor')
+          }
+        }else{
+          alert("xd");
+        }
+      }else{
+        Swal.fire({
+          title:'Error',
+          text:'Credenciales no validas',
+          icon:'warning'
+        })
+      }
+      
+      
+    })
   }
   ngOnInit(): void {
   }

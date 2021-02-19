@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Params } from '@angular/router';
 import { Nota } from '../../interface/nota';
-
+import { NotaService } from '../../services/nota.service';
+import Swal from "sweetalert2";
 @Component({
   selector: 'app-notas',
   templateUrl: './notas.component.html',
@@ -18,6 +19,7 @@ export class NotasComponent implements OnInit {
    private idgrado:number;
    private idseccion:string;
    private notas:Nota[]=[];
+   row:any;
    private nota: Nota = {
     cur_cod:null,
     mat_num:null,
@@ -25,44 +27,83 @@ export class NotasComponent implements OnInit {
     no_calificacion:null,
     no_periodo:null,
   };
-  constructor(private rutaActive:ActivatedRoute) {
+  constructor(private rutaActive:ActivatedRoute, private NotaService:NotaService) {
+    this.idcurso = this.rutaActive.snapshot.params.idcurso;
+    this.idgrado = this.rutaActive.snapshot.params.idgrado;
+    this.idseccion = this.rutaActive.snapshot.params.idseccion;
+    
+    //this.getData();
+    
+    
+    
+   }
+
+  ngOnInit(): void {
+   
     this.columnDefs = [
       {
         headerName: 'Codigo De Alumno',
-        field: 'a',
+        field: 'alu_dni',
         
        
       },
       {
         headerName: 'Apellidos y Nombres',
-        field: 'b',
+        field: 'alumno',
+        
+        
+      },
+      {
+        headerName: 'Nro Matricula',
+        field: 'mat_num',
         
         
       },
       {
         headerName: 'N1',
-        field: 'c',
+        field: 'Periodo1',
         editable: true,
         valueParser: this.numberValueParser,
       },
       {
+        headerName: 'idN1',
+        field: 'IDNota1',
+        
+        hide:true,
+        
+      },
+      {
         headerName: 'N2',
-        field: 'd',
-        valueParser: this.numberValueParser,
+        field: 'Periodo2',
         editable: true,
+        valueParser: this.numberValueParser,
+      },
+      {
+        headerName: 'idN2',
+        field: 'IDNota2',
+        
+        hide:true,
         
       },
       {
         headerName: 'N3',
-        field: 'e',
-        valueParser: this.numberValueParser,
+        field: 'Periodo3',
         editable: true,
+        valueParser: this.numberValueParser,
+      },
+      {
+        headerName: 'idN3',
+        field: 'IDNota3',
+        
+        hide:true,
         
       },
+      
       {
         headerName: 'PROMEDIO',
         field:'f',
-        valueGetter: '(data.c + data.d + data.e)/ 3',
+        valueGetter: '(data.Periodo1 + data.Periodo2 + data.Periodo3)/ 3',
+        valueFormatter: this.ajuste,
         cellRenderer: 'agAnimateShowChangeCellRenderer',
       },
       
@@ -74,33 +115,64 @@ export class NotasComponent implements OnInit {
       cellClass: 'align-right',
       
     };
-    this.rowData = this.createRowData();
-   }
-
-  ngOnInit(): void {
-    this.idcurso = this.rutaActive.snapshot.params.idcurso;
-    this.idgrado = this.rutaActive.snapshot.params.idgrado;
-    this.idseccion = this.rutaActive.snapshot.params.idseccion;
+    
+  }
+  ajuste(params){
+    return (params.value).toFixed(2);
+  }
+  getData(){
+    this.NotaService.getNotasByProfesor(this.idcurso,this.idgrado,this.idseccion).subscribe((data)=>{
+      this.row=data;
+      var rowDatax=[];
+      this.row.forEach(element => {
+      
+        rowDatax.push({
+          alu_dni: element.alu_dni,
+          alumno: element.alumno,
+          mat_num: element.mat_num,
+          Periodo1: parseFloat(element.Periodo1),
+          IDNota1: element.IDNota1,
+          Periodo2: parseFloat(element.Periodo2),
+          IDNota2: element.IDNota2,
+          Periodo3: parseFloat(element.Periodo3),
+          IDNota3:element.IDNota3,
+          
+        });
+        console.log("sx");
+      });
+      this.rowData=rowDatax;
+    })
   }
   OnGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    this.getData();
   }
   createRowData(){
     var rowData = [];
-  for (var i = 0; i < 3; i++) {
-    rowData.push({
-      a: "Codigo Alumno"+i,
-      b: "Apellidos y Nombres",
-      c: 10,
-      d: 10,
-      e: 10,
+    
+    console.log(this.row);
+    this.row.forEach(element => {
       
+      rowData.push({
+        alu_dni: "Codigo Alumno",
+        alumno: "Apellidos y Nombres",
+        mat_num: 10,
+        Periodo1: 10,
+        IDNota1: 10,
+        Periodo2: 10,
+        IDNota2: 10,
+        Periodo3: 10,
+        IDNota3: 10,
+        
+      });
     });
-  }
+    
+  
   return rowData;
   }
   numberValueParser(params) {
+    console.log(params.newValue);
     return Number(params.newValue);
   }
   formatNumber(number) {
@@ -115,25 +187,28 @@ export class NotasComponent implements OnInit {
       
       
      this.notas.push({
+       no_id: item.IDNota1,
        cur_cod:this.idcurso,
        mat_num:'1234',
        alu_dni:'12345678',
-       no_calificacion:item.c,
+       no_calificacion:item.Periodo1,
        no_periodo:1
      });
      this.notas.push({
-      cur_cod:this.idcurso,
-      mat_num:'1234',
-      alu_dni:'12345678',
-      no_calificacion:item.d,
-      no_periodo:2
+       no_id: item.IDNota2,
+       cur_cod:this.idcurso,
+       mat_num:'1234',
+       alu_dni:'12345678',
+       no_calificacion:item.Periodo2,
+       no_periodo:1
     });
     this.notas.push({
-      cur_cod:this.idcurso,
-      mat_num:'1234',
-      alu_dni:'12345678',
-      no_calificacion:item.e,
-      no_periodo:3
+       no_id: item.IDNota3,
+       cur_cod:this.idcurso,
+       mat_num:'1234',
+       alu_dni:'12345678',
+       no_calificacion:item.Periodo3,
+       no_periodo:1
     });
       i++;
       console.log(i);
@@ -141,7 +216,16 @@ export class NotasComponent implements OnInit {
     
     console.log(JSON.stringify(this.notas));
     
-    
+    this.NotaService.updateNotas(JSON.stringify(this.notas)).subscribe((resp)=>{
+     Swal.fire({
+       title: 'Registro actualizado',
+       text: 'Las notas se han actualizado con exito',
+       icon:'success'
+     })
+    },
+    (error)=>{
+      console.log(error);
+    })
      
     
   }
@@ -153,19 +237,19 @@ export class NotasComponent implements OnInit {
      
       // rowNode.setDataValue('d', Math.floor(Math.random() * 10000));
       //  rowNode.setDataValue('e', Math.floor(Math.random() * 10000));
-     if(event.data.c>20 || event.data.c<0){
+     if(event.data.Periodo1>20 || event.data.Periodo1<0){
       var rowNode = this.gridApi.getDisplayedRowAtIndex(event.rowIndex);
-      rowNode.setDataValue('c',event.oldValue);
+      rowNode.setDataValue('Periodo1',event.oldValue);
       console.log(rowNode);
     }
-    if(event.data.d>20 || event.data.d<0){
+    if(event.data.Periodo2>20 || event.data.Periodo2<0){
       var rowNode = this.gridApi.getDisplayedRowAtIndex(event.rowIndex);
-      rowNode.setDataValue('d',event.oldValue);
+      rowNode.setDataValue('Periodo2',event.oldValue);
       console.log(rowNode);
     }
-    if(event.data.e>20 || event.data.e<0){
+    if(event.data.Periodo3>20 || event.data.Periodo3<0){
       var rowNode = this.gridApi.getDisplayedRowAtIndex(event.rowIndex);
-      rowNode.setDataValue('e',event.oldValue);
+      rowNode.setDataValue('Periodo3',event.oldValue);
       console.log(rowNode);
     }
   }

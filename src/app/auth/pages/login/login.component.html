@@ -1,29 +1,43 @@
-<div class="container">
-    
-        <div class="row">
-          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-              <div class="card-body">
-                <h5 class="text-center">INICIAR SESIÓN</h5>
-                <form class="form-signin">
-                  <div class="form-label-group">
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" formControlName="login">
-                    <label for="inputEmail">Email address</label>
+
+<body>
+  <div class="container">
+  
+      <div class="row align-items-center justify-content-center vh-100">
+          <div class="col-6">
+              <mat-card class="mt-2">
+                <mat-card-header>
+                  <div class="row">
+                    <div class="text-center ml-4">
+                      <mat-card-title>INICIO DE SESIÓN</mat-card-title>
+                    </div>
+                    <div class="text-center ml-4">
+                      <mat-card-subtitle
+                        >Ingrese sesión para continuar</mat-card-subtitle
+                      >
+                    </div>
                   </div>
-    
-                  <div class="form-label-group">
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" formControlName="password">
-                    <label for="inputPassword">Password</label>
+                </mat-card-header>
+          
+                <mat-card-content>
+                  <mat-form-field class="example-full-width">
+                    <mat-label class="col-12">Usuario</mat-label>
+                    <input type="email" matInput placeholder="Usuario" [(ngModel)]="login" />
+                  </mat-form-field>
+                  <mat-form-field class="col-12">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput placeholder="Contraseña" [(ngModel)]="password"/>
+                  </mat-form-field>
+          
+                  <div class="row">
+                    <div class="col text-center">
+                      <button mat-raised-button (click)="auth()">Ingresar</button>
+                    </div>
                   </div>
-    
-                  
-                  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="button" (click)="prueba()">Sign in</button>
-                 
-                </form>
-              </div>
+                </mat-card-content>
+              </mat-card>
             </div>
-          </div>
-        </div>
+           
+      </div>
       
-    
-</div>
+    </div>
+</body>

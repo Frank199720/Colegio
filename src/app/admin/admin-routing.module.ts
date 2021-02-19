@@ -12,10 +12,15 @@ import { PrincipalComponent } from './profesor/principal/principal.component';
 import { PerfilComponent } from './profesor/perfil/perfil.component';
 import { CursosaComponent } from './profesor/cursosa/cursosa.component';
 import { NotasComponent } from './profesor/notas/notas.component';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { ProfesorGuard } from '../auth/guards/profesor.guard';
 
 const routes:Routes=[
   {
     path:'profesor', component:PrincipalComponent,
+    canLoad:[ProfesorGuard],
+    canActivate:[ProfesorGuard],
     children:[
       {path:'home' , component:HomeComponent},
       { path:'perfil', component:PerfilComponent },
@@ -26,6 +31,8 @@ const routes:Routes=[
   {
     path:"",
     component: AdminComponent,
+    canLoad:[AdminGuard],
+    canActivate:[AdminGuard],
     children:[
       {path:'alumno' , component:AlumnoComponent},
       {path:'curso' , component:CursoComponent},

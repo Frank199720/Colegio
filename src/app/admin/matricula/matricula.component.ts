@@ -134,7 +134,7 @@ export class MatriculaComponent implements OnInit {
               showConfirmButton: false,
             });
             this.closeModal("modalmatricula");
-
+            this.getMatricula();
             //this.getPersona();
           },
           (error) => {

@@ -381,6 +381,7 @@ export class AlumnoComponent implements OnInit {
     this.alumnoService.index().subscribe(
       (data) => {
         this.rowData = data;
+        console.log(data);
       },
       (error) => {
         console.log("Ocurrio un error");

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
+import { AsignacionService } from '../../services/asignacion.service';
 
 @Component({
   selector: 'app-cursosa',
@@ -13,59 +14,50 @@ export class CursosaComponent implements OnInit {
 
   private gridApi;
   private gridColumnApi;
+  idPersonal:string;
   columnDefs;
   defaultColDef;
   rowData;
+  idCurso;
+  idSeccion;
+  idGrado;
   datos=[{
     Curso: 'curso',
     Grado: 'Grado',
     Seccion: 'Seccion',
     Alumnos: 'Alumnos',
   }];
-  constructor(private router:Router) { 
+  constructor(private router:Router , private asignacionService:AsignacionService) { 
+    this.idPersonal=localStorage.getItem('token');
     this.columnDefs = [
-      {
-        headerName: "Curso",
-        field: 'Curso',
-        sortable: true,
-        /*minWidth: 100,
-        maxWidth: 120,
-        flex: 1,*/
-        
-        //width: 100,
-      },
-      {
-        headerName: "Grado",
-        field: 'Grado',
-        sortable: true,
-        /*minWidth: 200,
-        flex: 1,*/
-      },
-      {
-        headerName: "Seccion",
-        field: 'Seccion',
-        sortable: true,
-        /*minWidth: 200,
-        flex: 1,*/
-      },
-      {
-        headerName: "# Alumnos",
-        field: 'Alumnos',
-        sortable: true,
-        /*minWidth: 300,
-        flex: 2,*/
-      },
+    { field: "per_dni", headerName: "DNI", width: "100", hide: true },
+    { field: "cur_cod", headerName: "Codigo Curso", hide: true },
+    { field: "sec_cod", headerName: "Codigo seccion", hide: true },
+    { field: "grad_cod", headerName: "Codigo Grado", hide: true },
+    { field: "cur_descripcion", headerName: "Curso" },
+    { field: "gra_descripcion", headerName: "Grado" },
+    { field: "sec_letra", headerName: "Seccion" },
     ];
     this.defaultColDef = { resizable: true };
+    this.asignacionService.getAsignacionByPersonal(this.idPersonal).subscribe((data)=>{
+      this.rowData=data;
+    });
   }
-
+  onSelectionChanged(params) {
+    var selectedRows = this.gridApi.getSelectedRows();
+    console.log(selectedRows);
+    this.idCurso = selectedRows[0].cur_cod;
+    this.idGrado= selectedRows[0].gra_cod;
+    this.idSeccion=selectedRows[0].sec_cod;
+    
+  }
   ngOnInit(): void {
   }
 
   OnGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.rowData=this.datos;
+    
     //this.rowData = this.alumnoService.index();
   }
 
@@ -74,7 +66,7 @@ export class CursosaComponent implements OnInit {
     const selectedData = selectedNodes.map(node => node.data );
     //this.datos = selectedData.map(node=>node.alu_dni);
     console.log(selectedData[0]);
-    const ruta= "colegio/profesor/notas/1/2/3"
+    const ruta= "colegio/profesor/notas/"+this.idCurso+"/"+this.idGrado +"/"+this.idSeccion;
     this.router.navigateByUrl(ruta);
     
   }

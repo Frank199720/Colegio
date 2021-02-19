@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes, CanLoad } from '@angular/router';
 import { ErrorComponent } from "./shared/error/error.component";
+import { AuthGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +10,9 @@ const routes: Routes = [
   },
   {
     path:'colegio',
-    loadChildren :() =>import('./admin/admin.module').then(m=>m.AdminModule)
+    loadChildren :() =>import('./admin/admin.module').then(m=>m.AdminModule),
+    canLoad:[AuthGuard],
+    canActivate:[AuthGuard] 
   },
   {
     path: "404",

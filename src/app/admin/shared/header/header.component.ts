@@ -1,22 +1,29 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DataserviceService } from '../../services/dataservice.service';
-import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from "@angular/core";
+import { DataserviceService } from "../../services/dataservice.service";
+import { DOCUMENT } from "@angular/common";
+import { AuthService } from "../../services/auth.service";
+import { Route } from "@angular/compiler/src/core";
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(public dataService:DataserviceService, @Inject(DOCUMENT) private document: any) { }
+  constructor(
+    public dataService: DataserviceService,
+    @Inject(DOCUMENT) private document: any,
+    private AuthService: AuthService,
+    private router: Router
+  ) {}
   elem;
-  fullScreen:boolean=false;
+  fullScreen: boolean = false;
   ngOnInit(): void {
     this.elem = document.documentElement;
   }
 
-  screen(){
+  screen() {
     if (this.fullScreen) {
       this.closeFullscreen();
     } else {
@@ -53,5 +60,10 @@ export class HeaderComponent implements OnInit {
       /* IE/Edge */
       this.document.msExitFullscreen();
     }
+  }
+  cerrarSesion() {
+    localStorage.removeItem("token");
+    this.AuthService.restart();
+    this.router.navigate(["auth"]);
   }
 }

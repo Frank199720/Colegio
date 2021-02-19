@@ -20,9 +20,10 @@ export class PerfilComponent implements OnInit {
   SegSocial = new FormControl({ value: '', disabled: true }, [Validators.required]);
 
   profesor:Personal = null;
-
-  constructor(private personalServices:PersonalService) { 
-    this.personalServices.show('15498676').subscribe((data:Personal)=>{
+  idProfesor:string;
+  constructor(private personalServices:PersonalService) {
+    this.idProfesor=localStorage.getItem('token');
+    this.personalServices.show(this.idProfesor).subscribe((data:Personal)=>{
       this.profesor = data;
       //console.log(this.profesor);
     },error=>{
