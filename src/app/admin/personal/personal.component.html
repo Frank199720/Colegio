@@ -1,195 +1,259 @@
 <ng-template #modalPersonal let-modal>
-    <div class="modal-header">
-      <h4>{{accion}}</h4>
-    </div>
-    <div class="modal-body">
-      <form   [formGroup]="formPersonal" autocomplete="off" (ngSubmit)="Guardar()">
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="">Nombre</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_nombres"
-                name="per_nombres"
-                formControlName="codPersonal"
-                [(ngModel)]="personal.per_nombres"
-              />
-             
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="">Apellidos</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_apellidos"
-                name="per_apellidos"
-                formControlName="nombrePersonal"
-                [(ngModel)]="personal.per_apellidos"
-              />
-              
-            </div>
+  <div class="modal-header">
+    <h4>{{ accion }}</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formPersonal" autocomplete="off" (ngSubmit)="Guardar()">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="">Nombre</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_nombres"
+              name="per_nombres"
+              formControlName="codPersonal"
+              [(ngModel)]="personal.per_nombres"
+            />
           </div>
         </div>
-        <div class="row">
-          <div class="col-3">
-            <div class="form-group">
-              <label for="">DNI</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_dni"
-                name="per_dni"
-                formControlName="dniPersonal"
-                [(ngModel)]="personal.per_dni"
-              />
-             
-            </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Apellidos</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_apellidos"
+              name="per_apellidos"
+              formControlName="nombrePersonal"
+              [(ngModel)]="personal.per_apellidos"
+            />
           </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="">Dirección</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_direccion"
-                name="per_direccion"
-                formControlName="direccionPersonal"
-                [(ngModel)]="personal.per_direccion"
-              />
-              
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-3">
-            <div class="form-group">
-              <label for="">Estado civil</label>
-              <select class="form-control form-control-sm" [(ngModel)]="personal.per_estadocivil"  formControlName="sexoPersonal">
-                <option value="CASADO">CASADO</option>
-                <option value="SOLTERO">SOLTERO</option>
-                <option value="CONVIVIENTE">CONVIVIENTE</option>
-              </select>
-             
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="">Telefono</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_telefono"
-                name="per_telefono"
-                formControlName="telefonoPersonal"
-                [(ngModel)]="personal.per_telefono"
-              />
-              
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="">Seguro Social</label>
-              <input
-                
-                type="text"
-                class="form-control form-control-sm"
-                id="per_segurosocial"
-                name="per_segurosocial"
-                formControlName="seguroPersonal"
-                [(ngModel)]="personal.per_segurosocial"
-              />
-              
-            </div>
-          </div>
-        </div>
-        <div class="row d-flex justify-content-between">
-          
-          <div class="col-4">
-            <div class="form-group">
-              <label for="">Fecha de Ingreso</label>
-              <input
-                
-                type="date"
-                class="form-control form-control-sm"
-                id="per_ingreso"
-                name="per_ingreso"
-                formControlName="fechaPersonal"
-                [(ngModel)]="personal.per_ingreso"
-              />
-              
-            </div>
-          </div>
-
-          <div class="col-4">
-            <div class="form-group">
-              <label for="">Nivel</label>
-              <select [(ngModel)]="personal.niv_cod" class="form-control form-control" formControlName="nivel">
-                <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">{{nivel.niv_descripcion}}</option>
-              </select>
-              
-            </div>
-          </div>
-          
-        </div>
-        <div class="modal-footer">
-          <button type="submit"  class="btn btn-primary">
-            Guardar
-          </button>
-          <button type="button" class="btn btn-secondary" (click)="closeModal(modalPersonal)">Cerrar</button>
-        </div>
-      </form>
-    </div>
-  </ng-template>
-  
-  <div class="card">
-    <div class="card-header">PERSONAL REGISTRADO</div>
-    <div class="card-body">
-      <div class="row mb-1">
-        <div class="col d-flex">
-          <button
-            type="button"
-            class="btn btn-primary btn-sm ml-auto"
-            (click)="openSave(modalPersonal)"
-          >
-            <i class="fas fa-plus-square"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-warning btn-sm"
-            (click)="openEdit(modalPersonal)"
-          >
-            <i class="fas fa-edit"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-danger btn-sm"
-            (click)="eliminar()"
-          >
-            <i class="fas fa-trash"></i>
-          </button>
         </div>
       </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="">DNI</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_dni"
+              name="per_dni"
+              formControlName="dniPersonal"
+              [(ngModel)]="personal.per_dni"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Dirección</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_direccion"
+              name="per_direccion"
+              formControlName="direccionPersonal"
+              [(ngModel)]="personal.per_direccion"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="">Estado civil</label>
+            <select
+              class="form-control form-control-sm"
+              [(ngModel)]="personal.per_estadocivil"
+              formControlName="sexoPersonal"
+            >
+              <option value="CASADO">CASADO</option>
+              <option value="SOLTERO">SOLTERO</option>
+              <option value="CONVIVIENTE">CONVIVIENTE</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Telefono</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_telefono"
+              name="per_telefono"
+              formControlName="telefonoPersonal"
+              [(ngModel)]="personal.per_telefono"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="">Seguro Social</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="per_segurosocial"
+              name="per_segurosocial"
+              formControlName="seguroPersonal"
+              [(ngModel)]="personal.per_segurosocial"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-between">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="">Fecha de Ingreso</label>
+            <input
+              type="date"
+              class="form-control form-control-sm"
+              id="per_ingreso"
+              name="per_ingreso"
+              formControlName="fechaPersonal"
+              [(ngModel)]="personal.per_ingreso"
+            />
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="">Nivel</label>
+            <select
+              [(ngModel)]="personal.niv_cod"
+              class="form-control form-control"
+              formControlName="nivel"
+            >
+              <option [value]="nivel.niv_cod" *ngFor="let nivel of niveles">
+                {{ nivel.niv_descripcion }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeModal(modalPersonal)"
+        >
+          Cerrar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #modalAsignacion let modal>
+  <div class="modal-header">
+    <h4>Asignación de cursos</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-5">
+        <div class="form-group">
+          <label for="">Grado</label>
+          <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="gradoid" (change)="listaSeccion()">
+            <option [value]="item.gra_cod" *ngFor="let item of grado">
+              {{ item.gra_descripcion }}
+            </option>
+          </select>
+          
+        </div>
+
+        
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <label for="">Seccion</label>
+          <select class="form-control">
+            <option [value]="item.sec_cod" *ngFor="let item of seccion">
+              {{ item.sec_letra }}
+            </option>
+          </select>
+        </div>
+
+        
+      </div>
+      <div class="col">
+        <br>
+        <button class="btn btn-danger btn-lg" type="button" (click)="addItems(0)">
+          <i class="fa fas fa-plus-square fa-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="">Curso</label>
+          <select class="form-control"></select>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-1">
       <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
         <ag-grid-angular
           style="width: 100%px; height: 500px"
           class="ag-theme-alpine"
-          [rowData]="rowData"
-          [columnDefs]="columnDefs"
-          rowSelection='single'
-          (gridReady)="OnGridReady($event)"
+          [rowData]="rowAsignacion"
+          [columnDefs]="columnAsignacion"
+          rowSelection="single"
           
+          
+          (gridReady)="OnGridReadyAsignacion($event)"
+         
         >
         </ag-grid-angular>
       </div>
+      
     </div>
   </div>
-  
+</ng-template>
+<div class="card">
+  <div class="card-header">PERSONAL REGISTRADO</div>
+  <div class="card-body">
+    <div class="row mb-1">
+      <div class="col d-flex">
+        <button
+          type="button"
+          class="btn btn-primary btn-sm ml-auto"
+          (click)="openSave(modalPersonal)"
+        >
+          <i class="fas fa-plus-square"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning btn-sm"
+          (click)="openEdit(modalPersonal)"
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="eliminar()"
+        >
+          <i class="fas fa-trash"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="asignarCurso(modalAsignacion)"
+        >Asignar Cursos</button>
+      </div>
+    </div>
+    <div id="myGrid" class="ag-theme-alpine" style="width: 100%; height: 100%">
+      <ag-grid-angular
+        style="width: 100%px; height: 500px"
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        rowSelection="single"
+        (gridReady)="OnGridReady($event)"
+        (selectionChanged)="onSelectionChanged($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
