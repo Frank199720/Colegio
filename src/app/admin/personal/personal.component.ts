@@ -399,6 +399,12 @@ export class PersonalComponent implements OnInit {
       this.asignacionService.insertAsignacion(JSON.stringify(this.asignacionArray)).subscribe(
         (data)=>{
           console.log(data)
+          Swal.fire({
+            icon: "success",
+            title: "El registro ha sido guardado",
+            showConfirmButton: false,
+          });
+          this.closeModal("modalAsignacion");
         },
         (error)=>{
           console.log(error);
