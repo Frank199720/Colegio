@@ -1,7 +1,7 @@
 <ng-template #contenido let-modal>
   <div class="modal-header">
-    <p>Ficha de Alumno</p>
-    <p>{{accion}}</p>
+    <p class="fw-bolder fs-5" style="margin: 0px;">Ficha de Alumno</p>
+    <p class="fw-bolder fs-5" style="margin: 0px;">{{accion}}</p>
   </div>
   <div class="modal-body">
     <form (ngSubmit)="guardar()" [formGroup]="formAlumno" autocomplete="off">
@@ -228,13 +228,15 @@
               <div class="col-8">
                 <div class="form-group">
                   <label for="">Dirección</label>
-                  <input type="text" class="form-control form-control-sm" formControlName="direccion" />
+                  <input [(ngModel)]="adomicilio.ald_direccion" type="text" class="form-control form-control-sm"
+                    formControlName="direccion" />
                 </div>
               </div>
               <div class="col-4">
                 <div class="form-group">
                   <label for="">Telefono</label>
-                  <input type="text" class="form-control form-control-sm" formControlName="telefono" />
+                  <input [(ngModel)]="adomicilio.ald_telefono" type="text" class="form-control form-control-sm"
+                    formControlName="telefono" />
                 </div>
               </div>
             </div>
@@ -242,8 +244,10 @@
               <div class="col">
                 <div class="form-group">
                   <label for="">Departamento</label>
-                  <select class="form-control form-control-sm" formControlName="depDomicilio" onchange="provAlumno()">
-                    <option [value]="departamento.id" *ngFor="let departamento of departamentos">{{departamento.name}}
+                  <select [(ngModel)]="adomicilio.department_id" class="form-control form-control-sm"
+                    formControlName="depDomicilio" (change)="departamentoDom()">
+                    <option [value]="departDomicilio.id" *ngFor="let departDomicilio of departsDomicilio">
+                      {{departDomicilio.name}}
                     </option>
                   </select>
                 </div>
@@ -251,82 +255,19 @@
               <div class="col">
                 <div class="form-group">
                   <label for="">Provincia</label>
-                  <select class="form-control form-control-sm" formControlName="provDomicilio">
-                    <option value="F">Trujillo</option>
-                    <option value="M">Virú</option>
+                  <select [(ngModel)]="adomicilio.province_id" class="form-control form-control-sm"
+                    formControlName="provDomicilio" (change)="provinciaDom()">
+                    <option [value]="provinDomicilio.id" *ngFor="let provinDomicilio of provinsDomicilio">{{provinDomicilio.name}}
+                    </option>
                   </select>
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label for="">Distrito</label>
-                  <select class="form-control form-control-sm" formControlName="distDomicilio">
-                    <option value="F">Trujillo</option>
-                    <option value="M">Porvenir</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="card" style="width: 100%;">
-          <div class="card-header">
-            Datos de Servicios y Otros del Domicilio
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Medio de Transporte</label>
-                  <select class="form-control form-control-sm" formControlName="transporte">
-                    <option value="F">La Libertad</option>
-                    <option value="M">Lima</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Demora en llegar</label>
-                  <input type="text" class="form-control form-control-sm" formControlName="tiempoDemora" />
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Material</label>
-                  <select class="form-control form-control-sm" formControlName="materialVivienda">
-                    <option value="F">Trujillo</option>
-                    <option value="M">Porvenir</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Energia Electrica</label>
-                  <select class="form-control form-control-sm" formControlName="electricidad">
-                    <option value="F">La Libertad</option>
-                    <option value="M">Lima</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Agua potable</label>
-                  <select class="form-control form-control-sm" formControlName="aguaPotable">
-                    <option value="F">Trujillo</option>
-                    <option value="M">Virú</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="">Desagüe</label>
-                  <select class="form-control form-control-sm" formControlName="desague">
-                    <option value="F">Trujillo</option>
-                    <option value="M">Porvenir</option>
+                  <select [(ngModel)]="adomicilio.district_id" class="form-control form-control-sm"
+                    formControlName="distDomicilio">
+                    <option [value]="distriDomicilio.id" *ngFor="let distriDomicilio of distrisDomicilio">{{distriDomicilio.name}}</option>
                   </select>
                 </div>
               </div>

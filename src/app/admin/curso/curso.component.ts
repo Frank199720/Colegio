@@ -61,7 +61,13 @@ export class CursoComponent implements OnInit {
     { 
       headerName: "CURSO", 
       field: 'cur_descripcion',
-      flex: 3,
+      flex: 2,
+      minWidth: 200,
+    },
+    { 
+      headerName: "GRADO", 
+      field: 'gra_descripcion',
+      flex: 2,
       minWidth: 200,
     },
     { 

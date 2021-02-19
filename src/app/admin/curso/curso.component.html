@@ -1,6 +1,6 @@
 <ng-template #contenido let-modal>
   <div class="modal-header">
-    <p>{{accion}}</p>
+    <p class="fw-bolder fs-5" style="margin: 0px;">{{accion}}</p>
   </div>
   <div class="modal-body">
     <form [formGroup]="formCurso" (ngSubmit)="guardar()">
@@ -37,8 +37,8 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!formCurso.valid">Guardar</button>
-        <button class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!formCurso.valid"><i class="far fa-save"></i> Guardar</button>
+        <button class="btn btn-danger" (click)="cerrar()"><i class="far fa-times-circle"></i> Cancelar</button>
       </div>
     </form>
   </div>

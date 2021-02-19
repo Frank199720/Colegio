@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Alumno } from '../interface/alumno';
+import { AluDomicilio } from '../interface/alu-domicilio';
 
 @Injectable({
   providedIn: 'root'
@@ -33,13 +34,25 @@ export class AlumnoService {
   store(alumno:Alumno){
     return this.httpClient.post(this.RUTA_API+'/alumnos', alumno);
   }
+
+  storeDomicilio(adomicilio:AluDomicilio){
+    return this.httpClient.post(this.RUTA_API+'/domicilio', adomicilio);
+  }
   
   show(id){
     return this.httpClient.get(this.RUTA_API+'/alumnos/' + id);
   }
 
+  showDomicilio(id){
+    return this.httpClient.get(this.RUTA_API+'/domicilio/' + id);
+  }
+
   update(alumno:Alumno, id){
     return this.httpClient.put(this.RUTA_API+'/alumnos/' + id, alumno);
+  }
+
+  updateDomicilio(adomicilio:AluDomicilio, id){
+    return this.httpClient.put(this.RUTA_API+'/domicilio/' + id, adomicilio);
   }
 
   destroy(id){
