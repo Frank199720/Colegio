@@ -236,7 +236,9 @@ export class AlumnoComponent implements OnInit {
   }
 
   guardar() {
-    if(!this.formAlumno.invalid){
+    console.log(this.alumno);
+
+    //if(!this.formAlumno.invalid){
       if (this.editing) {
         //console.log("despues" + this.alumno.alu_nombres);
         this.alumnoService.update(this.alumno,this.alumno.alu_dni).subscribe(data=>{
@@ -257,11 +259,8 @@ export class AlumnoComponent implements OnInit {
             timer: 1500,
           });
         });
-        this.alumnoService.updateDomicilio(this.adomicilio, this.adomicilio.alu_dni).subscribe(data=>{});
-        console.log(this.adomicilio);
-        console.log(this.adomicilio.alu_dni);
       } else {
-        //console.log(this.alumno);
+        console.log(this.alumno);
         this.alumnoService.store(this.alumno).subscribe(data=>{
           Swal.fire({
             icon: 'success',
@@ -280,16 +279,14 @@ export class AlumnoComponent implements OnInit {
             timer: 1500,
           });
         });
-        this.adomicilio.alu_dni=this.alumno.alu_dni;
-        this.alumnoService.storeDomicilio(this.adomicilio);
       }
-    } else {
+    /*} else {
       Swal.fire({
         icon:"error",
         title:'Ocurrió un error',
         text:'Hay campos invalidos'
       });
-    }
+    }*/
     this.limpiarForm();
     this.modal.dismissAll();
 
@@ -381,7 +378,7 @@ export class AlumnoComponent implements OnInit {
     this.alumnoService.index().subscribe(
       (data) => {
         this.rowData = data;
-        console.log(data);
+        //console.log(data);
       },
       (error) => {
         console.log("Ocurrio un error");
